@@ -1,13 +1,12 @@
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from '@/components/Navbar/Navbar';
 
 const Home = () => {
   return (
     <div>
       <Navbar />
-      <h1 className="p-8 text-2xl text-green-600 font-semibold">
-        Hello world!
+      <h1 className="p-10 text-6xl font-semibold text-red-600">
+        Abir ekta bishal bokachoda!
       </h1>
-      ;
     </div>
   );
 };
