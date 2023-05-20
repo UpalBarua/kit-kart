@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 import {
   AiOutlineShoppingCart,
   AiOutlineMenu,
@@ -6,7 +6,7 @@ import {
   AiOutlineFire,
   AiOutlineNotification,
   AiOutlineHeart,
-} from 'react-icons/ai';
+} from "react-icons/ai";
 // import { FiHome } from 'react-icons/fi';
 
 const Navbar = () => {
@@ -29,7 +29,8 @@ const Navbar = () => {
           <li>
             <Link
               className="flex gap-1 items-center px-3 py-2 rounded hover:bg-gray-100"
-              href="/">
+              href="/"
+            >
               <AiOutlineHome className="text-xl" />
               <span>Home</span>
             </Link>
@@ -37,7 +38,8 @@ const Navbar = () => {
           <li>
             <Link
               className="flex gap-1 items-center px-3 py-2 rounded hover:bg-gray-100"
-              href="/">
+              href="/"
+            >
               <AiOutlineFire className="text-xl" />
               <span>Hot Deals</span>
             </Link>
@@ -45,7 +47,8 @@ const Navbar = () => {
           <li>
             <Link
               className="flex gap-1 items-center px-3 py-2 rounded hover:bg-gray-100"
-              href="/">
+              href="/"
+            >
               <AiOutlineNotification className="text-xl" />
               <span>New Products</span>
             </Link>
@@ -53,14 +56,16 @@ const Navbar = () => {
           <li>
             <Link
               className="flex justify-center items-center w-10 h-10 text-pink-600 rounded-full bg-pink-400/20"
-              href="/">
+              href="/"
+            >
               <AiOutlineHeart className="text-2xl" />
             </Link>
           </li>
           <li>
             <Link
               className="flex justify-center items-center w-10 h-10 text-green-800 rounded-full bg-green-500/20"
-              href="/">
+              href="/"
+            >
               <AiOutlineShoppingCart className="text-2xl" />
             </Link>
           </li>
@@ -70,7 +75,7 @@ const Navbar = () => {
                 className="object-cover object-center w-10 h-10 rounded-full border-2 border-green-500"
                 src="https://i.ibb.co/RhdnmJG/dp.jpg"
                 alt="user image"
-              />{' '}
+              />{" "}
               <div className="hidden lg:block">
                 <p className="font-semibold">Upal Barua</p>
                 <p className="text-sm text-gray-600">upal@mail.com</p>
