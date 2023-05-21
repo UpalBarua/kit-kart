@@ -46,7 +46,7 @@ const register = () => {
       {/* <Navbar /> */}
 
       <section className="container grid my-10 rounded-lg lg:p-0 lg:shadow lg:bg-gray-100 lg:grid-cols-2">
-        <div className="p-2 sm:p-6 md:p-10 lg:p-14">
+        <div className="p-2 sm:p-6 md:p-10 lg:p-16">
           <h2 className="pb-1 text-2xl font-bold capitalize lg:pb-2 lg:text-3xl">
             Welcome To Kit Kart
           </h2>
@@ -58,7 +58,7 @@ const register = () => {
               {registerError}
             </p>
           )}
-          <form className="grid gap-2" onSubmit={handleSubmit(handleRegister)}>
+          <form className="grid gap-4" onSubmit={handleSubmit(handleRegister)}>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="name">
                 Full Name
@@ -67,8 +67,16 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="name"
                 type="text"
+                {...register('name', {
+                  required: {
+                    value: true,
+                    message: 'Please enter your name',
+                  },
+                })}
               />
-              <p className="text-sm text-red-500">this is a message</p>
+              {errors.name?.message && (
+                <p className="text-sm text-red-500">{errors.name?.message}</p>
+              )}
             </fieldset>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="email">
@@ -78,8 +86,16 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="email"
                 type="text"
+                {...register('email', {
+                  required: {
+                    value: true,
+                    message: 'Please enter your email address',
+                  },
+                })}
               />
-              <p className="text-sm text-red-500">this is a message</p>
+              {errors.email?.message && (
+                <p className="text-sm text-red-500">{errors.email?.message}</p>
+              )}
             </fieldset>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="password">
@@ -89,8 +105,18 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="password"
                 type="password"
+                {...register('password', {
+                  required: {
+                    value: true,
+                    message: 'Please enter a password',
+                  },
+                })}
               />
-              <p className="text-sm text-red-500">this is a message</p>
+              {errors.password?.message && (
+                <p className="text-sm text-red-500">
+                  {errors.password?.message}
+                </p>
+              )}
             </fieldset>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="password2">
@@ -100,8 +126,18 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="password2"
                 type="password"
+                {...register('password2', {
+                  required: {
+                    value: true,
+                    message: 'Please renter your password',
+                  },
+                })}
               />
-              <p className="text-sm text-red-500">this is a message</p>
+              {errors.password2?.message && (
+                <p className="text-sm text-red-500">
+                  {errors.password2?.message}
+                </p>
+              )}
             </fieldset>
             <div className="flex justify-between">
               <fieldset className="flex gap-2 items-center">
@@ -109,6 +145,7 @@ const register = () => {
                   className="text-green-500 rounded focus:ring-0"
                   id="remember"
                   type="checkbox"
+                  {...register('remember')}
                 />
                 <label htmlFor="remember">Remember me</label>
               </fieldset>
@@ -116,7 +153,7 @@ const register = () => {
             </div>
             <button
               type="submit"
-              className="py-4 mt-5 mb-2 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7">
+              className="py-4 mt-5 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7">
               Register
             </button>
             <button
