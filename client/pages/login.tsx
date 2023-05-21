@@ -5,9 +5,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 
-const register = () => {
+const login = () => {
   const { registerUser } = useAuth();
-  const [registerError, setRegisterError] = useState(
+  const [loginError, setRegisterError] = useState(
     'This is a big error message. which will be displayed when there is any error related to user registration.'
   );
 
@@ -51,25 +51,14 @@ const register = () => {
             Welcome To Kit Kart
           </h2>
           <p className="pb-4 text-gray-600 lg:pb-6 ms-1">
-            Welcome, create your account
+            Welcome back, login to your account
           </p>
-          {!registerError.length > 0 && (
+          {!loginError.length > 0 && (
             <p className="p-4 mb-5 text-red-600 bg-red-200 rounded-md border-2 border-red-400">
-              {registerError}
+              {loginError}
             </p>
           )}
           <form className="grid gap-2" onSubmit={handleSubmit(handleRegister)}>
-            <fieldset className="grid gap-2">
-              <label className="capitalize" htmlFor="name">
-                Full Name
-              </label>
-              <input
-                className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
-                id="name"
-                type="text"
-              />
-              <p className="text-sm text-red-500">this is a message</p>
-            </fieldset>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="email">
                 Email Address
@@ -92,17 +81,6 @@ const register = () => {
               />
               <p className="text-sm text-red-500">this is a message</p>
             </fieldset>
-            <fieldset className="grid gap-2">
-              <label className="capitalize" htmlFor="password2">
-                Repeat Password
-              </label>
-              <input
-                className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
-                id="password2"
-                type="password"
-              />
-              <p className="text-sm text-red-500">this is a message</p>
-            </fieldset>
             <div className="flex justify-between">
               <fieldset className="flex gap-2 items-center">
                 <input
@@ -117,7 +95,7 @@ const register = () => {
             <button
               type="submit"
               className="py-4 mt-5 mb-2 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7">
-              Register
+              Login
             </button>
             <button
               type="button"
@@ -127,9 +105,9 @@ const register = () => {
             </button>
           </form>
           <p className="mt-8 text-center text-gray-600">
-            Already have an account?{' '}
-            <Link className="text-green-500" href="/login">
-              Login
+            Don't have an account?{' '}
+            <Link className="text-green-500" href="/register">
+              Register
             </Link>
           </p>
         </div>
@@ -141,4 +119,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default login;
