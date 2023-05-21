@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   AiOutlineShoppingCart,
@@ -66,7 +67,7 @@ const Navbar = () => {
               <AiOutlineShoppingCart className="text-2xl" />
             </Link>
           </li>
-          <div className="flex gap-1 items-center">
+          <li className="flex gap-1 items-center">
             <div className="flex gap-2 items-center">
               <img
                 className="object-cover object-center w-10 h-10 rounded-full border-2 border-green-500"
