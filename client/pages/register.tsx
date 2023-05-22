@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast';
 const register = () => {
   // TODO : Need to add password validation
 
-  const { registerUser } = useAuth();
+  const { registerUser, googleLogin } = useAuth();
   const [registerError, setRegisterError] = useState('');
 
   const {
@@ -49,6 +49,26 @@ const register = () => {
       }
     } catch (error) {
       setRegisterError(error?.message);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const { user } = await googleLogin();
+
+      // TODO - check if the user is really present
+      if (user) {
+        const { data } = await axios.post('/user', {
+          userName: user.displayName,
+          email: user.email,
+        });
+
+        if (data?.createdAt) {
+          toast.success('Account created successfully');
+        }
+      }
+    } catch (error) {
+      setRegisterError(error.message);
     }
   };
 
@@ -188,8 +208,9 @@ const register = () => {
               Register
             </button>
             <button
+              className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400"
               type="button"
-              className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400">
+              onClick={handleGoogleLogin}>
               <FcGoogle className="text-xl" />
               <span>Register with Google</span>
             </button>
