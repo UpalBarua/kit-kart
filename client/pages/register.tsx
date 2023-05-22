@@ -1,17 +1,20 @@
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
-import Layout from '@/components/Layout/Layout';
-import axios from '@/api/axios';
-import { toast } from 'react-hot-toast';
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
+import Layout from "@/components/Layout/Layout";
+import axios from "@/api/axios";
+import { toast } from "react-hot-toast";
+import Lottie from "lottie-react";
+
+import lotto23 from "../../client/assets/register2.json";
 
 const register = () => {
   // TODO : Need to add password validation
 
   const { registerUser, googleLogin } = useAuth();
-  const [registerError, setRegisterError] = useState('');
+  const [registerError, setRegisterError] = useState("");
 
   const {
     register,
@@ -36,13 +39,13 @@ const register = () => {
       if (!user?.uid) return;
 
       try {
-        const { data } = await axios.post('/user', {
+        const { data } = await axios.post("/user", {
           userName: name,
           email,
         });
 
         if (data?.createdAt) {
-          toast.success('Account created successfully');
+          toast.success("Account created successfully");
         }
       } catch (error) {
         console.log(error);
@@ -58,13 +61,13 @@ const register = () => {
 
       // TODO - check if the user is really present
       if (user) {
-        const { data } = await axios.post('/user', {
+        const { data } = await axios.post("/user", {
           userName: user.displayName,
           email: user.email,
         });
 
         if (data?.createdAt) {
-          toast.success('Account created successfully');
+          toast.success("Account created successfully");
         }
       }
     } catch (error) {
@@ -97,23 +100,23 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="name"
                 type="text"
-                {...register('name', {
+                {...register("name", {
                   required: {
                     value: true,
-                    message: 'Please enter your name',
+                    message: "Please enter your name",
                   },
                   minLength: {
                     value: 2,
-                    message: 'Name must be at least 2 characters long',
+                    message: "Name must be at least 2 characters long",
                   },
                   maxLength: {
                     value: 50,
-                    message: 'Name must not exceed 50 characters',
+                    message: "Name must not exceed 50 characters",
                   },
                   pattern: {
                     value: /^[A-Za-z\s]+$/,
                     message:
-                      'Name should only contain alphabetic characters and spaces',
+                      "Name should only contain alphabetic characters and spaces",
                   },
                 })}
               />
@@ -131,14 +134,14 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="email"
                 type="text"
-                {...register('email', {
+                {...register("email", {
                   required: {
                     value: true,
-                    message: 'Please enter your email address',
+                    message: "Please enter your email address",
                   },
                   pattern: {
                     value: /^\S+@\S+\.\S+$/,
-                    message: 'Please enter a valid email address',
+                    message: "Please enter a valid email address",
                   },
                 })}
               />
@@ -156,10 +159,10 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="password"
                 type="password"
-                {...register('password', {
+                {...register("password", {
                   required: {
                     value: true,
-                    message: 'Please enter a password',
+                    message: "Please enter a password",
                   },
                 })}
               />
@@ -177,10 +180,10 @@ const register = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="password2"
                 type="password"
-                {...register('password2', {
+                {...register("password2", {
                   required: {
                     value: true,
-                    message: 'Please renter your password',
+                    message: "Please renter your password",
                   },
                 })}
               />
@@ -196,7 +199,7 @@ const register = () => {
                   className="text-green-500 rounded focus:ring-0"
                   id="remember"
                   type="checkbox"
-                  {...register('remember')}
+                  {...register("remember")}
                 />
                 <label htmlFor="remember">Remember me</label>
               </fieldset>
@@ -204,26 +207,34 @@ const register = () => {
             </div>
             <button
               type="submit"
-              className="py-4 mt-5 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7">
+              className="py-4 mt-5 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7"
+            >
               Register
             </button>
             <button
               className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400"
               type="button"
-              onClick={handleGoogleLogin}>
+              onClick={handleGoogleLogin}
+            >
               <FcGoogle className="text-xl" />
               <span>Register with Google</span>
             </button>
           </form>
           <p className="mt-8 text-center text-gray-600">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link className="text-green-500" href="/login">
               Login
             </Link>
           </p>
         </div>
         <div className="hidden place-content-center bg-gray-200 lg:grid">
-          <h2 className="text-2xl text-gray-500">Animation goes here!</h2>
+          <h2 className="text-2xl text-gray-500">
+            <Lottie
+              className="w-4/5 scale-110"
+              animationData={lotto23}
+              loop={true}
+            ></Lottie>
+          </h2>
         </div>
       </section>
     </Layout>

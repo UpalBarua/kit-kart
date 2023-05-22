@@ -1,15 +1,19 @@
-import { useState } from 'react';
-import Navbar from '@/components/Navbar/Navbar';
-import { useForm } from 'react-hook-form';
-import { useAuth } from '@/contexts/AuthContext';
-import Link from 'next/link';
-import { FcGoogle } from 'react-icons/fc';
-import Layout from '@/components/Layout/Layout';
+import { useState } from "react";
+import Navbar from "@/components/Navbar/Navbar";
+import { useForm } from "react-hook-form";
+import { useAuth } from "@/contexts/AuthContext";
+import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
+import Layout from "@/components/Layout/Layout";
+
+import Lottie from "lottie-react";
+
+import lotto25 from "../../client/assets/login5.json";
 
 const login = () => {
   const { registerUser } = useAuth();
   const [loginError, setRegisterError] = useState(
-    'This is a big error message. which will be displayed when there is any error related to user registration.'
+    "This is a big error message. which will be displayed when there is any error related to user registration."
   );
 
   const {
@@ -32,7 +36,7 @@ const login = () => {
       // TODO: Add a loading spinner
 
       if (user?.uid) {
-        console.log('User created.');
+        console.log("User created.");
       }
     } catch (error) {
       // TODO: Add a toast or something that will notify the user about the error
@@ -93,25 +97,31 @@ const login = () => {
             </div>
             <button
               type="submit"
-              className="py-4 mt-5 mb-2 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7">
+              className="py-4 mt-5 mb-2 text-lg font-semibold text-white capitalize bg-green-500 rounded-md lg:mt-7"
+            >
               Login
             </button>
             <button
               type="button"
-              className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400">
+              className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400"
+            >
               <FcGoogle className="text-xl" />
               <span>Register with Google</span>
             </button>
           </form>
           <p className="mt-8 text-center text-gray-600">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <Link className="text-green-500" href="/register">
               Register
             </Link>
           </p>
         </div>
         <div className="hidden place-content-center bg-gray-200 lg:grid">
-          <h2 className="text-2xl text-gray-500">Animation goes here!</h2>
+          <Lottie
+            className="scale-110"
+            animationData={lotto25}
+            loop={true}
+          ></Lottie>
         </div>
       </section>
     </Layout>
