@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
+import Layout from '@/components/Layout/Layout';
 
 const login = () => {
   const { registerUser } = useAuth();
@@ -42,9 +43,7 @@ const login = () => {
 
   // ! p-0 in line 38 might need to be removed
   return (
-    <>
-      {/* <Navbar /> */}
-
+    <Layout>
       <section className="container grid my-10 rounded-lg lg:p-0 lg:shadow lg:bg-gray-100 lg:grid-cols-2">
         <div className="p-2 sm:p-6 md:p-10 lg:p-14">
           <h2 className="pb-1 text-2xl font-bold capitalize lg:pb-2 lg:text-3xl">
@@ -115,7 +114,7 @@ const login = () => {
           <h2 className="text-2xl text-gray-500">Animation goes here!</h2>
         </div>
       </section>
-    </>
+    </Layout>
   );
 };
 
