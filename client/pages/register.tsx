@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import Navbar from '@/components/Navbar/Navbar';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
+import Layout from '@/components/Layout/Layout';
+import axios from '@/api/axios';
+import { toast } from 'react-hot-toast';
 
 const register = () => {
+  // TODO : Need to add password validation
+
   const { registerUser } = useAuth();
-  const [registerError, setRegisterError] = useState(
-    'This is a big error message. which will be displayed when there is any error related to user registration.'
-  );
+  const [registerError, setRegisterError] = useState('');
 
   const {
     register,
@@ -18,33 +20,41 @@ const register = () => {
   } = useForm();
 
   const handleRegister = async ({
+    name,
     email,
     password,
   }: {
+    name: string;
     email: string;
     password: string;
   }) => {
     try {
       const { user } = await registerUser(email, password);
 
-      // TODO: Add a toast or something that will notify the user about the success
       // TODO: Add a loading spinner
 
-      if (user?.uid) {
-        console.log('User created.');
+      if (!user?.uid) return;
+
+      try {
+        const { data } = await axios.post('/user', {
+          userName: name,
+          email,
+        });
+
+        if (data?.createdAt) {
+          toast.success('Account created successfully');
+        }
+      } catch (error) {
+        console.log(error);
       }
     } catch (error) {
-      // TODO: Add a toast or something that will notify the user about the error
-      console.log(error);
       setRegisterError(error?.message);
     }
   };
 
   // ! p-0 in line 38 might need to be removed
   return (
-    <>
-      {/* <Navbar /> */}
-
+    <Layout>
       <section className="container grid my-10 rounded-lg lg:p-0 lg:shadow lg:bg-gray-100 lg:grid-cols-2">
         <div className="p-2 sm:p-6 md:p-10 lg:p-16">
           <h2 className="pb-1 text-2xl font-bold capitalize lg:pb-2 lg:text-3xl">
@@ -53,7 +63,7 @@ const register = () => {
           <p className="pb-4 text-gray-600 lg:pb-6 ms-1">
             Welcome, create your account
           </p>
-          {!registerError.length > 0 && (
+          {registerError.length > 0 && (
             <p className="p-4 mb-5 text-red-600 bg-red-200 rounded-md border-2 border-red-400">
               {registerError}
             </p>
@@ -72,10 +82,25 @@ const register = () => {
                     value: true,
                     message: 'Please enter your name',
                   },
+                  minLength: {
+                    value: 2,
+                    message: 'Name must be at least 2 characters long',
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: 'Name must not exceed 50 characters',
+                  },
+                  pattern: {
+                    value: /^[A-Za-z\s]+$/,
+                    message:
+                      'Name should only contain alphabetic characters and spaces',
+                  },
                 })}
               />
               {errors.name?.message && (
-                <p className="text-sm text-red-500">{errors.name?.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.name?.message.toString()}
+                </p>
               )}
             </fieldset>
             <fieldset className="grid gap-2">
@@ -91,10 +116,16 @@ const register = () => {
                     value: true,
                     message: 'Please enter your email address',
                   },
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: 'Please enter a valid email address',
+                  },
                 })}
               />
               {errors.email?.message && (
-                <p className="text-sm text-red-500">{errors.email?.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.email?.message.toString()}
+                </p>
               )}
             </fieldset>
             <fieldset className="grid gap-2">
@@ -114,7 +145,7 @@ const register = () => {
               />
               {errors.password?.message && (
                 <p className="text-sm text-red-500">
-                  {errors.password?.message}
+                  {errors.password?.message.toString()}
                 </p>
               )}
             </fieldset>
@@ -135,7 +166,7 @@ const register = () => {
               />
               {errors.password2?.message && (
                 <p className="text-sm text-red-500">
-                  {errors.password2?.message}
+                  {errors.password2?.message.toString()}
                 </p>
               )}
             </fieldset>
@@ -174,7 +205,7 @@ const register = () => {
           <h2 className="text-2xl text-gray-500">Animation goes here!</h2>
         </div>
       </section>
-    </>
+    </Layout>
   );
 };
 

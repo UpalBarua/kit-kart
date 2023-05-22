@@ -17,6 +17,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
   const { body } = req;
+  console.log(body);
 
   try {
     const response = await User.create(body);

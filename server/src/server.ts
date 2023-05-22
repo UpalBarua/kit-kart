@@ -11,6 +11,7 @@ const port = process.env.PORT || 5000;
 const uri = process.env.DB_URI || '';
 
 app.use(cors());
+app.use(express.json());
 
 app.use('/user', userRoute);
 
