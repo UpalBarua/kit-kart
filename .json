@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Box Of Fresh Tomatoes",
+    "imageUrl": "i.ibb.co",
+    "ratingAvg": "4.9",
+    "reviewsCount": "2.5K",
+    "salesCount": "2.9K",
+    "price": "45.00",
+    "stock": "500",
+    "seller": "kit kart",
+    "description": {
+      "main": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo architecto culpa quo assumenda maiores aut! Porro quam quis ad, accusamus ea totam fuga, tempora nihil tempore blanditiis, iste dolores eius.",
+      "list": [
+        "Lorem ipsum dolor sit amet consectetur",
+        "Lorem ipsum dolor sit amet consectetur",
+        "Lorem ipsum dolor sit amet consectetur",
+        "Lorem ipsum dolor sit amet consectetur",
+        "Lorem ipsum dolor sit amet consectetur"
+      ]
+    }
+  }
+]
