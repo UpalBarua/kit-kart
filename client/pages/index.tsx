@@ -1,22 +1,24 @@
 import Layout from '@/components/Layout/Layout';
 import ProductCard from '@/components/ProductCard/ProductCard';
-import Image from 'next/image';
-import Link from 'next/link';
-import { TbCurrencyTaka } from 'react-icons/tb';
-import { MdAdd } from 'react-icons/md';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import axios from '@/api/axios';
 
-const Home = () => {
+export const getStaticProps = async () => {
+  const { data } = await axios.get('/products');
+
+  return {
+    props: {
+      products: data,
+    },
+  };
+};
+
+const Home = ({ products }: { products: IProduct[] }) => {
   return (
     <Layout>
       <ul className="grid gap-6 lg:grid-cols-3">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {products.map((product) => (
+          <ProductCard key={product._id} {...product} />
+        ))}
       </ul>
     </Layout>
   );

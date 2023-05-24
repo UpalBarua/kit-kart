@@ -5,7 +5,7 @@ import { TbCurrencyTaka } from 'react-icons/tb';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 
-const ProductCard = () => {
+const ProductCard = ({ title, imageUrl, price, description }: IProduct) => {
   const handleAddToWishlist = (event) => {
     event.preventDefault();
     console.log('added');
@@ -18,20 +18,17 @@ const ProductCard = () => {
         href={'/products'}>
         <Image
           className="object-cover object-center w-full h-56 rounded-xl"
-          src={img}
-          alt="product"
+          src={imageUrl}
+          alt={title}
           height={200}
           width={200}
         />
-        <h3 className="text-2xl font-bold">Box of fresh tomatoes</h3>
-        <p className="text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat,
-          accusantium.
-        </p>
+        <h3 className="text-2xl font-bold">{title}</h3>
+        <p className="text-gray-600">{description?.main.slice(0, 100)}</p>
         <footer className="flex justify-between items-center pt-2">
           <p className="flex items-center text-3xl font-bold text-green-500">
             <TbCurrencyTaka />
-            <span>450.00</span>
+            <span>{price}</span>
           </p>
           <div>
             <button
