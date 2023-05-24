@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import img from '../../assets/images/product.jpg';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 
-const ProductCard = ({ title, imageUrl, price, description }: IProduct) => {
+const ProductCard = ({
+  _id,
+  title,
+  imageUrl,
+  price,
+  description,
+}: IProduct) => {
   const handleAddToWishlist = (event) => {
     event.preventDefault();
     console.log('added');
@@ -15,7 +20,7 @@ const ProductCard = ({ title, imageUrl, price, description }: IProduct) => {
     <li>
       <Link
         className="grid gap-2 p-5 bg-gray-100 rounded-xl shadow-md"
-        href={'/products'}>
+        href={`/products/${_id}`}>
         <Image
           className="object-cover object-center w-full h-56 rounded-xl"
           src={imageUrl}

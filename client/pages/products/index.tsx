@@ -12,7 +12,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home = ({ products }: { products: IProduct[] }) => {
+const index = ({ products }: { products: IProduct[] }) => {
   return (
     <Layout>
       <ul className="grid gap-6 lg:grid-cols-3">
@@ -24,4 +24,4 @@ const Home = ({ products }: { products: IProduct[] }) => {
   );
 };
 
-export default Home;
+export default index;

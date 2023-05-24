@@ -9,9 +9,40 @@ import { GrFormAdd, GrFormSubtract } from 'react-icons/gr';
 import { BsCart3, BsFillShareFill } from 'react-icons/bs';
 import { ImPriceTag } from 'react-icons/im';
 import { GoReport } from 'react-icons/go';
+import axios from '@/api/axios';
 
-const products = () => {
+export const getStaticPaths = async () => {
+  const { data: products } = await axios.get('/products');
+
+  const paths = products.map((product: IProduct) => {
+    return {
+      params: {
+        productId: product?._id,
+      },
+    };
+  });
+
+  console.log(paths);
+
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async ({ params }: { params: string }) => {
+  const { data } = await axios.get(`/products/${params?.productId}`);
+
+  return {
+    props: {
+      productDetails: data,
+    },
+  };
+};
+
+const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
   const [productQuantity, setProductQuantity] = useState(1);
+  console.log(productDetails);
 
   return (
     <Layout>
@@ -208,4 +239,4 @@ const products = () => {
   );
 };
 
-export default products;
+export default ProductDetails;

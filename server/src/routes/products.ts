@@ -7,19 +7,25 @@ router.get('/', async (req, res) => {
   try {
     const products = await Product.find({});
 
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'No products found' });
+    }
+
     res.status(200).json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (error: any) {
+    res.status(500).json({ message: error?.message });
   }
 });
 
+// TODO - refactor
 router.get('/:id', async (req, res) => {
   const { params } = req;
 
   try {
-    const product = await Product.findOne({ _id: params.id });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const product = await Product.findById(params.id);
+    res.status(200).json(product);
+  } catch (error: any) {
+    res.status(500).json({ message: error?.message });
   }
 });
 
