@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import userRoute from './routes/user';
-import cors from 'cors';
+import productsRoute from './routes/products';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/user', userRoute);
+app.use('/products', productsRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({ message: 'Server running' });

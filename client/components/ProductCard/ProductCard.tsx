@@ -6,11 +6,16 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 
 const ProductCard = () => {
+  const handleAddToWishlist = (event) => {
+    event.preventDefault();
+    console.log('added');
+  };
+
   return (
     <li>
       <Link
-        className="grid gap-2 p-5 text-center bg-gray-100 rounded-xl shadow-md"
-        href={'/'}>
+        className="grid gap-2 p-5 bg-gray-100 rounded-xl shadow-md"
+        href={'/products'}>
         <Image
           className="object-cover object-center w-full h-56 rounded-xl"
           src={img}
@@ -29,10 +34,14 @@ const ProductCard = () => {
             <span>450.00</span>
           </p>
           <div>
-            <button className="p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full">
+            <button
+              className="p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full"
+              onClick={handleAddToWishlist}>
               <AiOutlineHeart />
             </button>
-            <button className="p-2 text-3xl text-white bg-green-500 rounded-full">
+            <button
+              className="p-2 text-3xl text-white bg-green-500 rounded-full"
+              onClick={handleAddToWishlist}>
               <MdAdd />
             </button>
           </div>
