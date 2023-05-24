@@ -17,6 +17,10 @@ app.use(express.json());
 app.use('/user', userRoute);
 app.use('/products', productsRoute);
 
+app.use((req: Request, res: Response) =>
+  res.status(404).json({ message: 'Not Found' })
+);
+
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({ message: 'Server running' });
 });
@@ -28,4 +32,7 @@ mongoose
       console.log(`[server] running on http://localhost:${port}`);
     });
   })
-  .catch((error) => console.log(error));
+  .catch((error) => {
+    console.log(`[database] connection error: ${error}`);
+    process.exit(1);
+  });

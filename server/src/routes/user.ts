@@ -5,24 +5,29 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const user = await User.find({});
+    const users = await User.find({});
 
-    // TODO: Add 404 error
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'No user found' });
+    }
 
-    res.status(200).json(user);
-  } catch (error) {
+    res.status(200).json(users);
+  } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 });
 
 router.post('/', async (req: Request, res: Response) => {
   const { body } = req;
-  console.log(body);
 
   try {
-    const response = await User.create(body);
-    res.status(201).json(response);
-  } catch (error) {
+    if (!body.email || !body.userName) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    const user = await User.create(body);
+    res.status(201).json(user);
+  } catch (error: any) {
     res.status(500).json({ message: error?.message });
   }
 });
