@@ -16,7 +16,7 @@ const ReviewCard = ({
   reviewLikes,
 }: ReviewCardProps) => {
   return (
-    <li className="grid gap-3 p-4 bg-gray-50 rounded-lg shadow">
+    <li className="grid gap-3">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <div className="w-8 h-8 bg-gray-300 rounded-full shadow"></div>

@@ -11,6 +11,7 @@ import { ImPriceTag } from 'react-icons/im';
 import { GoReport } from 'react-icons/go';
 import axios from '@/api/axios';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
+import ProductQuantity from '@/components/ProductQuantity/ProductQuantity';
 
 const REVIEWS = [
   {
@@ -148,34 +149,10 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
               <span>{price}</span>
             </p>
 
-            <div className="flex gap-1 items-center px-2 py-1 rounded-lg border-2 border-gray-200">
-              <button
-                className="p-1 text-xl rounded-full hover:shadow hover:bg-gray-200 outline-0"
-                onClick={() =>
-                  setProductQuantity(
-                    (prevProductQuantity) => prevProductQuantity - 1
-                  )
-                }>
-                <GrFormSubtract />
-              </button>
-              <input
-                className="w-16 text-center border-0 focus:ring-0"
-                type="number"
-                min="0"
-                max="100"
-                onChange={(event) => setProductQuantity(event.target.value)}
-                value={productQuantity}
-              />
-              <button
-                className="p-1 text-xl rounded-full hover:shadow hover:bg-gray-200 outline-0"
-                onClick={() =>
-                  setProductQuantity(
-                    (prevProductQuantity) => prevProductQuantity + 1
-                  )
-                }>
-                <GrFormAdd />
-              </button>
-            </div>
+            <ProductQuantity
+              productQuantity={productQuantity}
+              setProductQuantity={setProductQuantity}
+            />
             {/* <p className="text-gray-500">
                 Stock: <span className="font-semibold text-gray-800">886</span>
               </p> */}
@@ -216,8 +193,8 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
         </div>
 
         <div className="pb-5 lg:col-span-3">
-          <h2 className="pb-4 text-xl font-bold capitalize">Top Reviews</h2>
-          <ul className="grid gap-3 lg:gap-6">
+          <h2 className="pb-6 text-xl font-bold capitalize">Top Reviews</h2>
+          <ul className="grid gap-3 lg:gap-8">
             {REVIEWS?.map((review) => (
               <ReviewCard key={review._id} {...review} />
             ))}
