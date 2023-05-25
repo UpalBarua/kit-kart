@@ -10,39 +10,102 @@ import { BsCart3, BsFillShareFill } from 'react-icons/bs';
 import { ImPriceTag } from 'react-icons/im';
 import { GoReport } from 'react-icons/go';
 import axios from '@/api/axios';
+import ReviewCard from '@/components/ReviewCard/ReviewCard';
+
+const REVIEWS = [
+  {
+    _id: 0,
+    userName: 'Upal Barua',
+    rating: '5.0',
+    reviewText:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
+    createdAt: '10th may 2023',
+    reviewLikes: '10',
+  },
+  {
+    _id: 1,
+    userName: 'Upal Barua',
+    rating: '5.0',
+    reviewText:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
+    createdAt: '10th may 2023',
+    reviewLikes: '10',
+  },
+  {
+    _id: 3,
+    userName: 'Upal Barua',
+    rating: '5.0',
+    reviewText:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
+    createdAt: '10th may 2023',
+    reviewLikes: '10',
+  },
+];
 
 export const getStaticPaths = async () => {
-  const { data: products } = await axios.get('/products');
+  try {
+    const { data: products } = await axios.get('/products');
 
-  const paths = products.map((product: IProduct) => {
+    const paths = products.map(({ _id }: { _id: string }) => {
+      return {
+        params: {
+          productId: _id,
+        },
+      };
+    });
+
     return {
-      params: {
-        productId: product?._id,
-      },
+      paths,
+      fallback: true,
     };
-  });
+  } catch (error: any) {
+    console.log('Error fetching products: ', error);
 
-  console.log(paths);
-
-  return {
-    paths,
-    fallback: true,
-  };
+    return {
+      paths: [],
+      fallback: true,
+    };
+  }
 };
 
-export const getStaticProps = async ({ params }: { params: string }) => {
-  const { data } = await axios.get(`/products/${params?.productId}`);
+export const getStaticProps = async ({
+  params,
+}: {
+  params: { productId: string };
+}) => {
+  try {
+    const { data } = await axios.get(`/products/${params?.productId}`);
 
-  return {
-    props: {
-      productDetails: data,
-    },
-  };
+    return {
+      props: {
+        productDetails: data,
+      },
+    };
+  } catch (error: any) {
+    console.log('Failed to fetch product details: ', error);
+
+    return {
+      props: {
+        productDetails: {},
+      },
+    };
+  }
 };
 
 const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
   const [productQuantity, setProductQuantity] = useState(1);
-  console.log(productDetails);
+
+  const {
+    title,
+    imageUrl,
+    ratingAvg,
+    reviewsCount,
+    salesCount,
+    seller,
+    description,
+    price,
+    stock,
+  } = productDetails;
 
   return (
     <Layout>
@@ -50,8 +113,8 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
         {/* Product Image */}
         <div className="rounded-md lg:col-span-3 shadow-m">
           <Image
-            src={productImg}
-            alt={'product'}
+            src={imageUrl}
+            alt={title}
             height={500}
             width={500}
             className="w-full h-[20rem] lg:h-[25rem] object-cover object-center rounded-xl shadow-lg"
@@ -61,28 +124,28 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
         {/* Product description */}
         <div className="grid gap-1 content-start lg:col-span-4">
           <h2 className="text-2xl font-bold text-gray-800 capitalize lg:text-3xl">
-            Box of fresh tomatoes
+            {title}
           </h2>
 
           <div className="flex gap-2 items-center pb-3 text-lg text-gray-500 lg:pb-5">
             <div className="flex items-center">
               <AiFillStar className="text-lg text-yellow-500 me-1" />
-              <span className="font-bold">4.9</span> Ratings
+              <span className="font-bold">{ratingAvg}</span> Ratings
             </div>
             <RxDotFilled className="text-sm" />
             <div>
-              <span className="font-bold">2.5k+</span> Reviews
+              <span className="font-bold">{reviewsCount}+</span> Reviews
             </div>
             <RxDotFilled className="text-sm" />
             <div>
-              <span className="font-bold">2.9k+</span> Sold
+              <span className="font-bold">{salesCount}+</span> Sold
             </div>
           </div>
 
           <div className="flex justify-between items-center pb-3">
             <p className="flex items-center text-4xl font-bold text-gray-800">
               <TbCurrencyTaka />
-              <span>450.00</span>
+              <span>{price}</span>
             </p>
 
             <div className="flex gap-1 items-center px-2 py-1 rounded-lg border-2 border-gray-200">
@@ -132,18 +195,11 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
           {/* Description */}
           <div className="grid gap-2 pb-5">
             <h3 className="text-xl font-bold capitalize">Description</h3>
-            <p className="text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
-              architecto culpa quo assumenda maiores aut! Porro quam quis ad,
-              accusamus ea totam fuga, tempora nihil tempore blanditiis, iste
-              dolores eius.
-            </p>
+            <p className="text-gray-600">{description?.main}</p>
             <ul className="list-disc list-inside text-gray-600">
-              <li>Lorem ipsum dolor sit amet consectetur</li>
-              <li>Lorem ipsum dolor sit amet consectetur</li>
-              <li>Lorem ipsum dolor sit amet consectetur</li>
-              <li>Lorem ipsum dolor sit amet consectetur</li>
-              <li>Lorem ipsum dolor sit amet consectetur</li>
+              {description?.list.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
             </ul>
           </div>
 
@@ -159,79 +215,12 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
           </div>
         </div>
 
-        {/* Order placement */}
         <div className="pb-5 lg:col-span-3">
           <h2 className="pb-4 text-xl font-bold capitalize">Top Reviews</h2>
           <ul className="grid gap-3 lg:gap-6">
-            <li className="grid gap-3 p-4 bg-gray-50 rounded-lg shadow">
-              <div className="flex justify-between items-center">
-                <div className="flex gap-2 items-center">
-                  <div className="w-8 h-8 bg-gray-300 rounded-full shadow"></div>
-                  <p className="font-semibold">Upal Barua</p>
-                </div>
-                <div className="flex gap-1 items-center font-semibold">
-                  <AiFillStar className="text-yellow-500" />
-                  <span>5.0</span>
-                </div>
-              </div>
-              <p className="p-1 text-gray-800">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
-                nobis? Lorem ipsum dolor sit amet.
-              </p>
-              <footer className="flex justify-between items-center text-gray-500">
-                <div className="flex gap-1 items-center text-lg">
-                  <AiFillLike />
-                  <span>10</span>
-                </div>
-                <p className="text-sm">10th May 2023</p>
-              </footer>
-            </li>
-            <li className="grid gap-3 p-4 bg-gray-50 rounded-lg shadow">
-              <div className="flex justify-between items-center">
-                <div className="flex gap-2 items-center">
-                  <div className="w-8 h-8 bg-gray-300 rounded-full shadow"></div>
-                  <p className="font-semibold">Upal Barua</p>
-                </div>
-                <div className="flex gap-1 items-center font-semibold">
-                  <AiFillStar className="text-yellow-500" />
-                  <span>5.0</span>
-                </div>
-              </div>
-              <p className="p-1 text-gray-800">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
-                nobis? Lorem ipsum dolor sit amet.
-              </p>
-              <footer className="flex justify-between items-center text-gray-500">
-                <div className="flex gap-1 items-center text-lg">
-                  <AiFillLike />
-                  <span>10</span>
-                </div>
-                <p className="text-sm">10th May 2023</p>
-              </footer>
-            </li>
-            <li className="grid gap-3 p-4 bg-gray-50 rounded-lg shadow">
-              <div className="flex justify-between items-center">
-                <div className="flex gap-2 items-center">
-                  <div className="w-8 h-8 bg-gray-300 rounded-full shadow"></div>
-                  <p className="font-semibold">Upal Barua</p>
-                </div>
-                <div className="flex gap-1 items-center font-semibold">
-                  <AiFillStar className="text-yellow-500" />
-                  <span>5.0</span>
-                </div>
-              </div>
-              <p className="p-1 text-gray-800">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
-                nobis? Lorem ipsum dolor sit amet.
-              </p>
-              <footer className="flex justify-between items-center text-gray-500">
-                <div className="flex gap-1 items-center text-lg">
-                  <AiFillLike />
-                  <span>10</span>
-                </div>
-                <p className="text-sm">10th May 2023</p>
-              </footer>
-            </li>
+            {REVIEWS?.map((review) => (
+              <ReviewCard key={review._id} {...review} />
+            ))}
           </ul>
         </div>
       </section>

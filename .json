@@ -16,7 +16,11 @@
         "Versatile Snacking: Movie nights or cravings, our perfect companion.",
         "Guaranteed Satisfaction: We stand behind our chips, guaranteed delight."
       ]
-    }
+    },
+    "discount": "20",
+    "isNew": false,
+    "isOnSale": true,
+    "isBestSeller": false
   },
   {
     "title": "A Bottle Of Pepsi (2 ltr)",
