@@ -8,9 +8,9 @@ interface LayoutProps {
 
 const Layout = ({ children, className = '' }: LayoutProps) => {
   return (
-    <main className={`container ${className}`}>
+    <main className="container">
       <Navbar />
-      {children}
+      <section className={className}>{children}</section>
     </main>
   );
 };

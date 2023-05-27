@@ -32,4 +32,15 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
+// router.post('/cart', async (req: Request, res: Response) => {
+//   const { query, body } = req;
+
+//   try {
+//     const currentCart = await User.find({ email: query?.email });
+//     console.log(currentCart);
+//   } catch (error: any) {
+//     res.status(500).json({ message: error?.message });
+//   }
+// });
+
 export default router;

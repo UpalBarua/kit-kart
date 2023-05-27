@@ -18,6 +18,16 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    cart: [
+      {
+        productId: String,
+        productQuantity: {
+          type: Number,
+          default: 1,
+          min: 1,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

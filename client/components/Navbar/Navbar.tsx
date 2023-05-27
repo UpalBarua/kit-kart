@@ -64,7 +64,7 @@ const Navbar = () => {
               <li>
                 <Link
                   className="flex justify-center items-center w-10 h-10 text-green-800 rounded-full bg-green-500/20"
-                  href="/">
+                  href="/cart">
                   <AiOutlineShoppingCart className="text-2xl" />
                 </Link>
               </li>

@@ -29,7 +29,7 @@ const ProductCard = ({
           width={200}
         />
         <h3 className="text-2xl font-bold">{title}</h3>
-        <p className="text-gray-600">{description?.main.slice(0, 100)}</p>
+        <p className="text-gray-600">{description?.main.slice(0, 80)}</p>
         <footer className="flex justify-between items-center pt-2">
           <p className="flex items-center text-3xl font-bold text-green-500">
             <TbCurrencyTaka />
