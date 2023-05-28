@@ -5,6 +5,7 @@ import {
   ReactNode,
   useEffect,
 } from 'react';
+import axios from '@/api/axios';
 
 interface CartItem {
   productId: string;
@@ -22,7 +23,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    console.table(cart);
+    const saveCart = async () => {
+      const { data } = await axios.put('/cart?email=upal@mail.com', {
+        products: cart,
+      });
+
+      console.log({ data });
+      console.log({ cart });
+    };
+
+    saveCart();
   }, [cart]);
 
   const addToCart = (productId: string, quantity: number = 0) => {
