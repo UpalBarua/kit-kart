@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import productImg from '@/assets/images/product.jpg';
 import Layout from '@/components/Layout/Layout';
 import Image from 'next/image';
 import { RxDotFilled } from 'react-icons/rx';
 import { AiFillStar, AiFillLike } from 'react-icons/ai';
 import { TbCurrencyTaka } from 'react-icons/tb';
-import { GrFormAdd, GrFormSubtract } from 'react-icons/gr';
 import { BsCart3, BsFillShareFill } from 'react-icons/bs';
 import { ImPriceTag } from 'react-icons/im';
 import { GoReport } from 'react-icons/go';
 import axios from '@/api/axios';
 import ReviewCard from '@/components/ReviewCard/ReviewCard';
 import ProductQuantity from '@/components/ProductQuantity/ProductQuantity';
+import { useCart } from '@/contexts/CartContext';
 
 const REVIEWS = [
   {
@@ -95,8 +94,10 @@ export const getStaticProps = async ({
 
 const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
   const [productQuantity, setProductQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const {
+    _id,
     title,
     imageUrl,
     ratingAvg,
@@ -107,6 +108,12 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
     price,
     stock,
   } = productDetails;
+
+  const handleAddToCart = (event: MouseEvent) => {
+    event.preventDefault();
+
+    addToCart(_id, productQuantity);
+  };
 
   return (
     <Layout>
@@ -163,7 +170,9 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
               <ImPriceTag className="text-xl" />
               <span>Buy Now</span>
             </button>
-            <button className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-green-500 rounded-lg border-2 border-green-500 shadow">
+            <button
+              className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-green-500 rounded-lg border-2 border-green-500 shadow"
+              onClick={handleAddToCart}>
               <BsCart3 className="text-xl" />
               <span>Add to Cart</span>
             </button>

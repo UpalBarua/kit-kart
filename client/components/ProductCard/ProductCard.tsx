@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
+import { useCart } from '@/contexts/CartContext';
 
 const ProductCard = ({
   _id,
@@ -11,9 +12,17 @@ const ProductCard = ({
   price,
   description,
 }: IProduct) => {
+  const { addToCart, cart } = useCart();
+
   const handleAddToWishlist = (event) => {
     event.preventDefault();
-    console.log('added');
+    console.log(cart);
+  };
+
+  const handleAddToCart = (event: MouseEvent) => {
+    event.preventDefault();
+
+    return addToCart(_id, 1);
   };
 
   return (
@@ -43,7 +52,7 @@ const ProductCard = ({
             </button>
             <button
               className="p-2 text-3xl text-white bg-green-500 rounded-full"
-              onClick={handleAddToWishlist}>
+              onClick={handleAddToCart}>
               <MdAdd />
             </button>
           </div>
