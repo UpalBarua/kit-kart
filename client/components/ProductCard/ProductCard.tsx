@@ -4,6 +4,7 @@ import { TbCurrencyTaka } from 'react-icons/tb';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 import { useCart } from '@/contexts/CartContext';
+import { Product } from '@/types/product';
 
 const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
   const { addToCart, cart } = useCart();
@@ -15,8 +16,7 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
 
   const handleAddToCart = (event: MouseEvent) => {
     event.preventDefault();
-
-    return addToCart(_id, 1);
+    return addToCart({ productId: _id, productQuantity: 1 });
   };
 
   return (

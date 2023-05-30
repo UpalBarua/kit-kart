@@ -34,7 +34,7 @@ router.put('/', async (req: Request, res: Response) => {
     });
 
     const createdCart = await newCart.save();
-    res.status(200).json(createdCart);
+    res.status(201).json(createdCart);
   } catch (error: any) {
     res.status(500).json({ message: error?.message });
   }

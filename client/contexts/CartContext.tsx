@@ -29,7 +29,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const { mutate: addToCart } = useMutation({
-    mutationFn: async (productId: string, productQuantity: number = 1) => {
+    mutationFn: async ({
+      productId,
+      productQuantity,
+    }: {
+      productId: string;
+      productQuantity: number;
+    }) => {
       if (!productId || !productQuantity) return;
       let updatedCartProducts;
 
@@ -58,6 +64,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         const { status } = await axios.put(`/cart?email=${email}`, {
           products: updatedCartProducts,
         });
+
+        console.log(updatedCartProducts);
 
         if (status === 200) {
           toast.success('Product added to cart');

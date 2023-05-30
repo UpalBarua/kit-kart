@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import userRoute from './routes/user';
 import productsRoute from './routes/products';
 import cartRoute from './routes/cart';
+import wishlistRoute from './routes/wishlist';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/user', userRoute);
 app.use('/products', productsRoute);
 app.use('/cart', cartRoute);
+app.use('/wishlist', wishlistRoute);
 
 app.use((req: Request, res: Response) =>
   res.status(404).json({ message: 'Not Found' })

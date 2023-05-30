@@ -111,8 +111,7 @@ const ProductDetails = ({ productDetails }: { productDetails: Product }) => {
 
   const handleAddToCart = (event: MouseEvent) => {
     event.preventDefault();
-
-    addToCart(_id, productQuantity);
+    addToCart({ productId: _id, productQuantity });
   };
 
   return (
