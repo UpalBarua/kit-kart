@@ -1,50 +1,50 @@
-import { useState } from 'react';
-import Layout from '@/components/Layout/Layout';
-import Image from 'next/image';
-import { RxDotFilled } from 'react-icons/rx';
-import { AiFillStar, AiFillLike } from 'react-icons/ai';
-import { TbCurrencyTaka } from 'react-icons/tb';
-import { BsCart3, BsFillShareFill } from 'react-icons/bs';
-import { ImPriceTag } from 'react-icons/im';
-import { GoReport } from 'react-icons/go';
-import axios from '@/api/axios';
-import ReviewCard from '@/components/ReviewCard/ReviewCard';
-import ProductQuantity from '@/components/ProductQuantity/ProductQuantity';
-import { useCart } from '@/contexts/CartContext';
+import { useState } from "react";
+import Layout from "@/components/Layout/Layout";
+import Image from "next/image";
+import { RxDotFilled } from "react-icons/rx";
+import { AiFillStar, AiFillLike } from "react-icons/ai";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { BsCart3, BsFillShareFill } from "react-icons/bs";
+import { ImPriceTag } from "react-icons/im";
+import { GoReport } from "react-icons/go";
+import axios from "@/api/axios";
+import ReviewCard from "@/components/ReviewCard/ReviewCard";
+import ProductQuantity from "@/components/ProductQuantity/ProductQuantity";
+import { useCart } from "@/contexts/CartContext";
 
 const REVIEWS = [
   {
     _id: 0,
-    userName: 'Upal Barua',
-    rating: '5.0',
+    userName: "Upal Barua",
+    rating: "5.0",
     reviewText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
-    createdAt: '10th may 2023',
-    reviewLikes: '10',
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem",
+    createdAt: "10th may 2023",
+    reviewLikes: "10",
   },
   {
     _id: 1,
-    userName: 'Upal Barua',
-    rating: '5.0',
+    userName: "Upal Barua",
+    rating: "5.0",
     reviewText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
-    createdAt: '10th may 2023',
-    reviewLikes: '10',
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem",
+    createdAt: "10th may 2023",
+    reviewLikes: "10",
   },
   {
     _id: 3,
-    userName: 'Upal Barua',
-    rating: '5.0',
+    userName: "Upal Barua",
+    rating: "5.0",
     reviewText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
-    createdAt: '10th may 2023',
-    reviewLikes: '10',
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem",
+    createdAt: "10th may 2023",
+    reviewLikes: "10",
   },
 ];
 
 export const getStaticPaths = async () => {
   try {
-    const { data: products } = await axios.get('/products');
+    const { data: products } = await axios.get("/products");
 
     const paths = products.map(({ _id }: { _id: string }) => {
       return {
@@ -59,7 +59,7 @@ export const getStaticPaths = async () => {
       fallback: true,
     };
   } catch (error: any) {
-    console.log('Error fetching products: ', error);
+    console.log("Error fetching products: ", error);
 
     return {
       paths: [],
@@ -82,7 +82,7 @@ export const getStaticProps = async ({
       },
     };
   } catch (error: any) {
-    console.log('Failed to fetch product details: ', error);
+    console.log("Failed to fetch product details: ", error);
 
     return {
       props: {
@@ -128,8 +128,7 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
             className="w-full h-[20rem] lg:h-[25rem] object-cover object-center rounded-xl shadow-lg"
           />
         </div>
-
-        {/* Product description */}
+        s{/* Product description */}
         <div className="grid gap-1 content-start lg:col-span-4">
           <h2 className="text-2xl font-bold text-gray-800 capitalize lg:text-3xl">
             {title}
@@ -172,7 +171,8 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
             </button>
             <button
               className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-green-500 rounded-lg border-2 border-green-500 shadow"
-              onClick={handleAddToCart}>
+              onClick={handleAddToCart}
+            >
               <BsCart3 className="text-xl" />
               <span>Add to Cart</span>
             </button>
@@ -200,7 +200,6 @@ const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
             </button>
           </div>
         </div>
-
         <div className="pb-5 lg:col-span-3">
           <h2 className="pb-6 text-xl font-bold capitalize">Top Reviews</h2>
           <ul className="grid gap-3 lg:gap-8">
