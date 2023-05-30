@@ -2,6 +2,7 @@ import { useContext, createContext, ReactNode } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CartProduct } from '@/types/product';
 import axios from '@/api/axios';
+import { toast } from 'react-hot-toast';
 
 interface CartContextProps {
   cartProducts: CartProduct[];
@@ -40,10 +41,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         updatedCartProducts = cartProducts.map(
           ({ product, quantity }: CartProduct) => {
             if (product._id === productId) {
-              return { ...product, quantity: quantity + productQuantity };
+              return { product, quantity: quantity + productQuantity };
             }
 
-            return product;
+            return { product, quantity };
           }
         );
       } else {
@@ -53,11 +54,40 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         ];
       }
 
-      const { data } = await axios.put(`/cart?email=${email}`, {
-        products: updatedCartProducts,
-      });
+      try {
+        const { status } = await axios.put(`/cart?email=${email}`, {
+          products: updatedCartProducts,
+        });
 
-      console.log(data);
+        if (status === 200) {
+          toast.success('Product added to cart');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: () => queryClient.invalidateQueries(['cartProducts']),
+  });
+
+  const { mutate: removeFromCart } = useMutation({
+    mutationFn: async (productId: string) => {
+      if (!productId) return;
+
+      const filteredCartProducts = cartProducts.filter(
+        ({ product }: CartProduct) => product?._id !== productId
+      );
+
+      try {
+        const { status } = await axios.put(`/cart?email=${email}`, {
+          products: filteredCartProducts,
+        });
+
+        if (status === 200) {
+          toast.success('Removed from cart');
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     onSuccess: () => queryClient.invalidateQueries(['cartProducts']),
   });
@@ -65,6 +95,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     cartProducts,
     addToCart,
+    removeFromCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
