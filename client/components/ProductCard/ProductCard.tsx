@@ -5,13 +5,7 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 import { useCart } from '@/contexts/CartContext';
 
-const ProductCard = ({
-  _id,
-  title,
-  imageUrl,
-  price,
-  description,
-}: IProduct) => {
+const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
   const { addToCart, cart } = useCart();
 
   const handleAddToWishlist = (event) => {

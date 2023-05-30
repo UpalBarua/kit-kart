@@ -92,7 +92,7 @@ export const getStaticProps = async ({
   }
 };
 
-const ProductDetails = ({ productDetails }: { productDetails: IProduct }) => {
+const ProductDetails = ({ productDetails }: { productDetails: Product }) => {
   const [productQuantity, setProductQuantity] = useState(1);
   const { addToCart } = useCart();
 

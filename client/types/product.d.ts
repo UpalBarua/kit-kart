@@ -1,4 +1,4 @@
-interface IProduct {
+export interface Product {
   _id: string;
   title: string;
   imageUrl: string;
@@ -12,4 +12,9 @@ interface IProduct {
     main: string;
     list: string[];
   };
+}
+
+export interface CartProduct {
+  product: Product;
+  quantity: number;
 }

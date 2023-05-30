@@ -12,7 +12,7 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home = ({ products }: { products: IProduct[] }) => {
+const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
       <ul className="grid gap-6 lg:grid-cols-3">

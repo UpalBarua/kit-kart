@@ -1,15 +1,11 @@
 import { useContext, createContext, ReactNode } from 'react';
-import axios from '@/api/axios';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-
-interface CartItem {
-  product: IProduct;
-  quantity: number;
-}
+import { CartProduct } from '@/types/product';
+import axios from '@/api/axios';
 
 interface CartContextProps {
-  cart: CartItem[];
-  addToCart: (productId: string, quantity: number) => void;
+  cartProducts: CartProduct[];
+  addToCart: (productId: string, productQuantity: number) => void;
 }
 
 const CartContext = createContext<CartContextProps | null>(null);
@@ -28,6 +24,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         console.log(error);
       }
     },
+    enabled: !!email,
   });
 
   const { mutate: addToCart } = useMutation({
@@ -36,12 +33,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       let updatedCartProducts;
 
       const existingCartProducts = cartProducts.find(
-        ({ product }: CartItem) => product._id === productId
+        ({ product }: CartProduct) => product._id === productId
       );
 
       if (existingCartProducts) {
         updatedCartProducts = cartProducts.map(
-          ({ product, quantity }: CartItem) => {
+          ({ product, quantity }: CartProduct) => {
             if (product._id === productId) {
               return { ...product, quantity: quantity + productQuantity };
             }
@@ -62,32 +59,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       console.log(data);
     },
-    onSuccess: () => queryClient.invalidateQueries('cartProducts'),
+    onSuccess: () => queryClient.invalidateQueries(['cartProducts']),
   });
-
-  // const addToCart = (productId: string, quantity: number = 1) => {
-  //   if (!productId || !quantity) return;
-
-  //   setCart((prevCart) => {
-  //     const existingCartItem = prevCart.find(
-  //       (item) => item.product === productId
-  //     );
-
-  //     if (existingCartItem) {
-  //       const updatedCart = prevCart.map((item) => {
-  //         if (item.product === productId) {
-  //           return { ...item, quantity: item?.quantity + quantity };
-  //         }
-
-  //         return item;
-  //       });
-
-  //       return updatedCart;
-  //     }
-
-  //     return [...prevCart, { product: productId, quantity }];
-  //   });
-  // };
 
   const value = {
     cartProducts,
