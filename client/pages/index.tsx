@@ -1,24 +1,36 @@
 import Layout from '@/components/Layout/Layout';
 import ProductCard from '@/components/ProductCard/ProductCard';
+import { Product } from '@/types/product';
 import axios from '@/api/axios';
 
 export const getStaticProps = async () => {
-  const { data } = await axios.get('/products');
+  try {
+    const { data } = await axios.get('/products');
 
-  return {
-    props: {
-      products: data,
-    },
-  };
+    return {
+      props: {
+        products: data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
 };
 
 const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
       <ul className="grid gap-6 lg:grid-cols-3">
-        {products?.map((product) => (
-          <ProductCard key={product._id} {...product} />
-        ))}
+        {products &&
+          products?.map((product) => (
+            <ProductCard key={product._id} {...product} />
+          ))}
       </ul>
     </Layout>
   );
