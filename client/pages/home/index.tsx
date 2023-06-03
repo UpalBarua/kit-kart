@@ -11,7 +11,7 @@ import Testimonial from "@/components/Testimonial/Testimonial";
 const home = () => {
   return (
     <section>
-      <div className=" flex justify-center items-center">
+      <div className="flex items-center justify-center ">
         <div>
           <Image src={banner} alt="" height={550} width={600}></Image>
         </div>
@@ -29,10 +29,10 @@ const home = () => {
             </h1>
           </div>
           <div className="flex gap-4 pt-4">
-            <button className="bg-green-500 text-white font-bold py-2 px-4 rounded">
+            <button className="px-4 py-2 font-bold text-white bg-green-500 rounded">
               About us{" "}
             </button>
-            <button className=" border border-green-500 text-green-500 font-bold py-2 px-4 rounded">
+            <button className="px-4 py-2 font-bold text-green-500 border border-green-500 rounded ">
               Contact Now{" "}
             </button>
           </div>
