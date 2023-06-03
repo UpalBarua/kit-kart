@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const validateImgUrl = (value) => {
+const validateImgUrl = (value: string) => {
   const regex = /^(https?:\/\/)?([\w.]+)\.([a-z]{2,6}\.?)(\/[\w.]*)*\/?$/;
   return regex.test(value);
 };

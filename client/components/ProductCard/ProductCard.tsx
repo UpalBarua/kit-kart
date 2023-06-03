@@ -4,25 +4,32 @@ import { TbCurrencyTaka } from 'react-icons/tb';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 import { useCart } from '@/contexts/CartContext';
+import { Product } from '@/types/product';
+import { MouseEvent, useEffect } from 'react';
+import useWishlist from '@/hooks/useWishlist';
+import { useState } from 'react';
+import axios from '@/api/axios';
 
-const ProductCard = ({
-  _id,
-  title,
-  imageUrl,
-  price,
-  description,
-}: IProduct) => {
+const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
   const { addToCart, cart } = useCart();
+  const { addToWishlist, wishlist } = useWishlist();
+  const [isWishListed, setIsWishListed] = useState(false);
 
-  const handleAddToWishlist = (event) => {
-    event.preventDefault();
-    console.log(cart);
-  };
+  useEffect(() => {
+    setIsWishListed(
+      wishlist.products?.find((product: Product) => product._id === _id)
+    );
+  }, [wishlist, _id]);
 
   const handleAddToCart = (event: MouseEvent) => {
     event.preventDefault();
+    return addToCart({ productId: _id, productQuantity: 1 });
+  };
 
-    return addToCart(_id, 1);
+  const handleAddToWishlist = (event: MouseEvent) => {
+    event.preventDefault();
+    setIsWishListed((prevIsWishListed) => !prevIsWishListed);
+    return addToWishlist(_id);
   };
 
   return (
@@ -46,7 +53,9 @@ const ProductCard = ({
           </p>
           <div>
             <button
-              className="p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full"
+              className={`p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full ${
+                isWishListed ? 'bg-red-400' : 'bg-ping-200'
+              }`}
               onClick={handleAddToWishlist}>
               <AiOutlineHeart />
             </button>

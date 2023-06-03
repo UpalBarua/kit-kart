@@ -1,67 +1,109 @@
-import {
-  useState,
-  useContext,
-  createContext,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { useContext, createContext, ReactNode } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { CartProduct } from '@/types/product';
 import axios from '@/api/axios';
-
-interface CartItem {
-  productId: string;
-  quantity: number;
-}
+import { toast } from 'react-hot-toast';
 
 interface CartContextProps {
-  cart: CartItem[];
-  addToCart: (productId: string, quantity: number) => void;
+  cartProducts: CartProduct[];
+  addToCart: (productId: string, productQuantity: number) => void;
 }
 
 const CartContext = createContext<CartContextProps | null>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const queryClient = useQueryClient();
+  const email = 'upal@mail.com';
 
-  useEffect(() => {
-    const saveCart = async () => {
-      const { data } = await axios.put('/cart?email=upal@mail.com', {
-        products: cart,
-      });
+  const { data: cartProducts = [] } = useQuery({
+    queryKey: ['cartProducts', email],
+    queryFn: async () => {
+      try {
+        const { data } = await axios.get(`/cart?email=${email}`);
+        return data?.products;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    enabled: !!email,
+  });
 
-      console.log({ data });
-      console.log({ cart });
-    };
+  const { mutate: addToCart } = useMutation({
+    mutationFn: async ({
+      productId,
+      productQuantity,
+    }: {
+      productId: string;
+      productQuantity: number;
+    }) => {
+      if (!productId || !productQuantity) return;
+      let updatedCartProducts;
 
-    saveCart();
-  }, [cart]);
-
-  const addToCart = (productId: string, quantity: number = 0) => {
-    if (!productId || !quantity) return;
-
-    setCart((prevCart) => {
-      const existingCartItem = prevCart.find(
-        (item) => item?.productId === productId
+      const existingCartProducts = cartProducts.find(
+        ({ product }: CartProduct) => product._id === productId
       );
 
-      if (existingCartItem) {
-        const updatedCart = prevCart.map((item) => {
-          if (item?.productId === productId) {
-            return { ...item, quantity: item?.quantity + quantity };
+      if (existingCartProducts) {
+        updatedCartProducts = cartProducts.map(
+          ({ product, quantity }: CartProduct) => {
+            if (product._id === productId) {
+              return { product, quantity: quantity + productQuantity };
+            }
+
+            return { product, quantity };
           }
-
-          return item;
-        });
-
-        return updatedCart;
+        );
+      } else {
+        updatedCartProducts = [
+          ...cartProducts,
+          { product: productId, quantity: productQuantity },
+        ];
       }
 
-      return [...prevCart, { productId, quantity }];
-    });
-  };
+      try {
+        const { status } = await axios.put(`/cart?email=${email}`, {
+          products: updatedCartProducts,
+        });
+
+        console.log(updatedCartProducts);
+
+        if (status === 200) {
+          toast.success('Product added to cart');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: () => queryClient.invalidateQueries(['cartProducts']),
+  });
+
+  const { mutate: removeFromCart } = useMutation({
+    mutationFn: async (productId: string) => {
+      if (!productId) return;
+
+      const filteredCartProducts = cartProducts.filter(
+        ({ product }: CartProduct) => product?._id !== productId
+      );
+
+      try {
+        const { status } = await axios.put(`/cart?email=${email}`, {
+          products: filteredCartProducts,
+        });
+
+        if (status === 200) {
+          toast.success('Removed from cart');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    onSuccess: () => queryClient.invalidateQueries(['cartProducts']),
+  });
 
   const value = {
-    cart,
+    cartProducts,
     addToCart,
+    removeFromCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

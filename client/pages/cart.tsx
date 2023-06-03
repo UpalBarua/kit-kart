@@ -1,14 +1,24 @@
 import Layout from '@/components/Layout/Layout';
 import { useCart } from '@/contexts/CartContext';
+import ProductCard from '@/components/ProductCard/ProductCard';
+import { CartProduct } from '@/types/product';
 
 const Cart = () => {
-  const { cart, addToCart } = useCart();
-
-  console.log(cart);
+  const { cartProducts, addToCart, removeFromCart } = useCart();
 
   return (
     <Layout>
-      <h1>Hello world</h1>
+      <h2>Shopping Cart</h2>
+      <ul className="grid gap-5">
+        {cartProducts.map(({ product, quantity }: CartProduct) => (
+          <li className="flex gap-5 items-center" key={product?._id}>
+            <ProductCard {...product} />
+            <p>x{quantity}</p>
+            <p>price: {+product.price * quantity}</p>
+            <button onClick={() => removeFromCart(product?._id)}>Remove</button>
+          </li>
+        ))}
+      </ul>
       <button
         onClick={() => {
           addToCart('123', 123);

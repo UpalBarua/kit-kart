@@ -57,7 +57,7 @@ const Navbar = () => {
               <li>
                 <Link
                   className="flex justify-center items-center w-10 h-10 text-pink-600 rounded-full bg-pink-400/20"
-                  href="/">
+                  href="/wishlist">
                   <AiOutlineHeart className="text-2xl" />
                 </Link>
               </li>
