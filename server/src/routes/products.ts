@@ -4,8 +4,12 @@ import Product from '../models/Product';
 const router = Router();
 
 router.get('/', async (req, res) => {
+  const { search } = req.query;
+
   try {
-    const products = await Product.find({});
+    const products = await Product.find({
+      title: { $regex: new RegExp(search + '', 'i') },
+    });
 
     if (products.length === 0) {
       return res.status(404).json({ message: 'No products found' });

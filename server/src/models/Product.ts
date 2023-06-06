@@ -64,4 +64,6 @@ const productSchema = new Schema(
   }
 );
 
+productSchema.index({ title: 'text' });
+
 export default mongoose.model('Product', productSchema);

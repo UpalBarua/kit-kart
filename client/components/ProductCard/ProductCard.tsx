@@ -12,7 +12,7 @@ import axios from '@/api/axios';
 
 const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
   const { addToCart, cart } = useCart();
-  const { addToWishlist, wishlist } = useWishlist();
+  const { addToWishlist, wishlist, getIfWishListed } = useWishlist();
   const [isWishListed, setIsWishListed] = useState(false);
 
   useEffect(() => {
@@ -37,13 +37,15 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
       <Link
         className="grid gap-2 p-5 bg-gray-100 rounded-xl shadow-md"
         href={`/products/${_id}`}>
-        <Image
-          className="object-cover object-center w-full h-56 rounded-xl"
-          src={imageUrl}
-          alt={title}
-          height={200}
-          width={200}
-        />
+        {imageUrl !== 'i.ibb.co' && (
+          <Image
+            className="object-cover object-center w-full h-56 rounded-xl"
+            src={imageUrl}
+            alt={title}
+            height={200}
+            width={200}
+          />
+        )}
         <h3 className="text-2xl font-bold">{title}</h3>
         <p className="text-gray-600">{description?.main.slice(0, 80)}</p>
         <footer className="flex justify-between items-center pt-2">
