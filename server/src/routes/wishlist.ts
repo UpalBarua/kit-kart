@@ -43,19 +43,19 @@ router.put('/', async (req: Request, res: Response) => {
     }
 
     const existingProduct = wishlist.products.find(
-      ({ _id }) => '' + _id === productId
+      ({ _id }: any) => '' + _id === productId
     );
 
     if (existingProduct && Object.keys(existingProduct).length !== 0) {
       wishlist.products = wishlist.products.filter(
-        ({ _id }) => '' + _id !== productId
+        ({ _id }: any) => '' + _id !== productId
       );
       const newWishlist = await wishlist.save();
       return res.status(200).json(newWishlist);
     }
 
-    // wishlist.products.push(productId);
-    wishlist.products = [...wishlist.products, productId];
+    wishlist.products.push(productId as any);
+    // wishlist.products = [...wishlist.products, productId];
     const newWishlist = await wishlist.save();
     res.status(200).json(newWishlist);
   } catch (error: any) {

@@ -12,8 +12,8 @@ export const getStaticProps = async () => {
         products: data,
       },
     };
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log('Failed to fetch products: ', error.message);
 
     return {
       props: {
