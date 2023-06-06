@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
 const validateImgUrl = (value: string) => {
   const regex = /^(https?:\/\/)?([\w.]+)\.([a-z]{2,6}\.?)(\/[\w.]*)*\/?$/;
@@ -14,7 +14,7 @@ const productSchema = new Schema(
     imageUrl: {
       type: String,
       required: true,
-      validate: [validateImgUrl, 'Please provide a valid image URL'],
+      // validate: [validateImgUrl, "Please provide a valid image URL"],
     },
     ratingAvg: {
       type: String,
@@ -22,14 +22,12 @@ const productSchema = new Schema(
       default: 1.0,
     },
     reviewsCount: {
-      type: Number,
+      type: String,
       required: true,
-      default: 0,
     },
     salesCount: {
-      type: Number,
+      type: String,
       required: true,
-      default: 0,
     },
     price: {
       type: Number,
@@ -46,7 +44,10 @@ const productSchema = new Schema(
     seller: {
       type: String,
       required: true,
-      default: 'kit kart',
+      default: "kit kart",
+    },
+    category: {
+      type: String,
     },
     description: {
       main: {
@@ -58,12 +59,20 @@ const productSchema = new Schema(
         required: true,
       },
     },
+    discount: Number,
+    isNew: Boolean,
+    isOnSale: Boolean,
+    isBestSeller: Boolean,
   },
   {
     timestamps: true,
   }
 );
 
+<<<<<<< HEAD
 productSchema.index({ title: 'text' });
 
 export default mongoose.model('Product', productSchema);
+=======
+export default mongoose.model("Product", productSchema);
+>>>>>>> 8c6554295820881bf74ddcbdcd56f5011b4d1b31
