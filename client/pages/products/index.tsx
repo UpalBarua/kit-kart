@@ -23,18 +23,13 @@ const Products = () => {
 
   return (
     <Layout className="grid gap-2 grid-1 lg:grid-cols-6">
-      <div className="col-span-2 bg-red-400 rounded-x">
+      <div className="col-span-2 bg-green-50 rounded-xl">
         <input
           type="text"
           value={searchString}
           onChange={(event) => setSearchString(event.target.value)}
         />
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum quaerat
-        beatae repellat deleniti! Possimus in dolor molestias, non suscipit
-        earum, illo ipsa, nam quasi delectus beatae repudiandae consequatur.
-        Odit optio sint vero labore voluptate accusamus quos omnis ipsum,
-        distinctio excepturi aliquam quasi officiis culpa quae dolorum atque
-        tenetur cum molestias.
+        <h3>Categories</h3>
       </div>
       {isLoading && <p>Products loading...</p>}
       {isError && <p>Failed to load products!</p>}

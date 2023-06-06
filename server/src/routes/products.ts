@@ -4,11 +4,12 @@ import Product from '../models/Product';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { search } = req.query;
+  const { search, categories } = req.query;
 
   try {
     const products = await Product.find({
       title: { $regex: new RegExp(search + '', 'i') },
+      category: { $in: categories },
     });
 
     if (products.length === 0) {
