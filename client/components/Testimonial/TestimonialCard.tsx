@@ -5,15 +5,15 @@ import { VscPreview } from "react-icons/vsc";
 const TestimonialCard = ({ review }) => {
   const { name, id, text, image } = review;
   return (
-    <div className=" border-r-2  border-green-500 p-4">
+    <div className="p-4 border-r-2 border-green-500 ">
       <Image
-        className="rounded-full"
+        className="rounded-full h-14 w-14"
         src={image}
         alt=""
         height="70"
         width="70"
       ></Image>
-      <div className="flex gap-4 items-center pt-4 text-green-500">
+      <div className="flex items-center gap-4 pt-4 text-green-500">
         <VscPreview></VscPreview>
         <h1 className="text-[1rem] font-bold">{name}</h1>
       </div>

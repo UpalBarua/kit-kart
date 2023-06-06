@@ -1,9 +1,9 @@
 import React from "react";
 
 const ProvideCard = ({ result }) => {
-  const { id, provide_name, icon, talking } = result;
+  const { id, provide_name, icon, talking, bgClass } = result;
   return (
-    <div className="w-full lg:w-[300px] text-center items-center justify-center ml-4">
+    <div className="w-full lg:w-[300px] text-center items-center justify-center ml-4 bg-indigo-100 p-4">
       <h1 className="flex items-center justify-center text-[3rem] text-green-500 pb-6 ">
         {icon}
       </h1>

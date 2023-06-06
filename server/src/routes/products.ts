@@ -40,4 +40,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/", async (req, res) => {
+  try {
+    const result = await Product.findOne({
+      title: "A Bottle Of Pepsi (2 Ltr)",
+    });
+
+    console.log(result);
+
+    res.json(result);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+});
+
 export default router;
