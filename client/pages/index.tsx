@@ -2,6 +2,13 @@ import Layout from '@/components/Layout/Layout';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { Product } from '@/types/product';
 import axios from '@/api/axios';
+import React from 'react';
+import Provide from '@/components/Provide/Provide';
+import Testimonial from '@/components/Testimonial/Testimonial';
+import Categories from '@/components/Categories/Categories';
+import BestSelling from '@/components/BestSelling/BestSelling';
+import NewProduct from '@/components/NewProduct/NewProduct';
+import Hero from '@/components/Hero/Hero';
 
 export const getStaticProps = async () => {
   try {
@@ -26,6 +33,12 @@ export const getStaticProps = async () => {
 const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
+      <Hero></Hero>
+      <Categories></Categories>
+      <BestSelling></BestSelling>
+      <NewProduct></NewProduct>
+      <Provide></Provide>
+      <Testimonial></Testimonial>
       <ul className="grid gap-6 lg:grid-cols-3">
         {products &&
           products?.map((product) => (

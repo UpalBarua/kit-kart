@@ -14,7 +14,7 @@ const Navbar = () => {
   const { user } = useAuth();
 
   return (
-    <header className="sticky top-0 py-3 bg-white">
+    <header className="sticky top-0 py-3 bg-green-50">
       <nav className="flex justify-between items-center">
         <Link className="flex gap-2 items-center" href="/">
           <AiOutlineShoppingCart className="text-4xl text-green-500" />
@@ -30,7 +30,7 @@ const Navbar = () => {
         <ul className="flex gap-2 items-center text-gray-800 lg:gap-4">
           <li>
             <Link
-              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-gray-100"
+              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-green-100"
               href="/">
               <AiOutlineHome className="text-xl" />
               <span>Home</span>
@@ -38,7 +38,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-gray-100"
+              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-green-100"
               href="/">
               <AiOutlineFire className="text-xl" />
               <span>Hot Deals</span>
@@ -46,7 +46,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-gray-100"
+              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-green-100"
               href="/">
               <AiOutlineNotification className="text-xl" />
               <span>New Products</span>
@@ -94,7 +94,7 @@ const Navbar = () => {
             </li>
           )}
           <li>
-            <button className="grid place-content-center p-2 text-gray-600 rounded sm:hidden hover:text-gray-800 hover:bg-gray-100">
+            <button className="grid place-content-center p-2 text-gray-600 rounded sm:hidden hover:text-gray-800 hover:bg-green-100">
               <AiOutlineMenu className="text-3xl" />
             </button>
           </li>
