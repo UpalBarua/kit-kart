@@ -40,4 +40,24 @@ router.put('/', async (req: Request, res: Response) => {
   }
 });
 
+router.patch('/', async (req: Request, res: Response) => {
+  const { email, id, quantity } = req.query;
+
+  try {
+    const result = await Cart.findOneAndUpdate(
+      { userEmail: email, 'products._id': id },
+      {
+        $set: {
+          'products.$.quantity': quantity,
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
