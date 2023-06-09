@@ -3,14 +3,21 @@ import axios from '@/api/axios';
 import useUser from '@/hooks/useUser';
 import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AiFillStar } from 'react-icons/ai';
 
 interface ReviewFormProps {
   isReviewEditing: boolean;
   productId: string;
+  setIsReviewEditing: (value: boolean) => void;
 }
 
-function ReviewForm({ isReviewEditing, productId }: ReviewFormProps) {
+function ReviewForm({
+  isReviewEditing,
+  setIsReviewEditing,
+  productId,
+}: ReviewFormProps) {
   const [reviewComment, setReviewComment] = useState('');
+  const [rating, setRating] = useState(0);
   const { user } = useUser();
 
   const queryClient = useQueryClient();
@@ -24,7 +31,7 @@ function ReviewForm({ isReviewEditing, productId }: ReviewFormProps) {
       const newReview = {
         user: user?._id,
         product: productId,
-        rating: 5,
+        rating: rating,
         comment: reviewComment,
       };
 
@@ -34,6 +41,7 @@ function ReviewForm({ isReviewEditing, productId }: ReviewFormProps) {
         if (data?._id) {
           toast.success('Review added');
           setReviewComment('');
+          setIsReviewEditing(false);
         }
       } catch (error) {
         throw new Error('Failed to submit review');
@@ -46,16 +54,37 @@ function ReviewForm({ isReviewEditing, productId }: ReviewFormProps) {
 
   return (
     <form
-      className={`${isReviewEditing ? 'block' : 'hidden'}`}
+      className={`pb-8 ${isReviewEditing ? 'block' : 'hidden'}`}
       onSubmit={handleReviewSubmit}>
       <textarea
         className="p-3 w-full h-40 bg-white rounded-xl border-gray-400 shadow-sm resize-none"
         value={reviewComment}
         onChange={(event) => setReviewComment(event.target.value)}
       />
-      <button className="px-4 py-2 mt-2 font-semibold text-white bg-green-500 rounded-md shadow-sm">
-        Add Review
-      </button>
+      <div className="flex justify-between items-center">
+        <div>
+          {[...Array(5)].map((_, i) => {
+            i += 1;
+            return (
+              <button
+                className="focus:outline-0"
+                type="button"
+                key={i}
+                onClick={() => setRating(i)}>
+                <AiFillStar
+                  className={`text-2xl ${
+                    i <= rating ? 'text-orange-300' : 'text-gray-300'
+                  }`}
+                  key={i}
+                />
+              </button>
+            );
+          })}
+        </div>
+        <button className="px-4 py-2 mt-2 font-semibold text-white bg-green-500 rounded-md shadow-sm">
+          Add Review
+        </button>
+      </div>
     </form>
   );
 }

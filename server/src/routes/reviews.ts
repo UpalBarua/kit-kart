@@ -38,4 +38,15 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
+router.delete('/', async (req: Request, res: Response) => {
+  const { productId } = req.query;
+
+  try {
+    const result = await Review.findOneAndDelete({ _id: productId });
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

@@ -14,8 +14,9 @@ import { useCart } from '@/contexts/CartContext';
 import { MdAdd, MdOutlineClose } from 'react-icons/md';
 import { Product } from '@/types/product';
 import ReviewForm from '@/components/ReviewForm/ReviewForm';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Review } from '@/types/review';
+import { toast } from 'react-hot-toast';
 
 const REVIEWS = [
   {
@@ -119,8 +120,7 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
     stock,
   } = productDetails;
 
-  const handleAddToCart = (event: MouseEvent) => {
-    event.preventDefault();
+  const handleAddToCart = () => {
     addToCart({ productId: _id, productQuantity });
   };
 
@@ -136,8 +136,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
       throw new Error('Failed to fetch reviews');
     }
   });
-
-  console.log(reviews);
 
   return (
     <Layout>
@@ -190,7 +188,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               <TbCurrencyTaka />
               <span>{price}</span>
             </p>
-
             <ProductQuantity
               productQuantity={productQuantity}
               setProductQuantity={setProductQuantity}
@@ -245,7 +242,11 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               {isReviewEditing ? <MdOutlineClose /> : <MdAdd />}
             </button>
           </div>
-          <ReviewForm isReviewEditing={isReviewEditing} productId={_id} />
+          <ReviewForm
+            isReviewEditing={isReviewEditing}
+            setIsReviewEditing={setIsReviewEditing}
+            productId={_id}
+          />
           <ul className="grid gap-3 lg:gap-8">
             {reviews?.map((review: Review) => (
               <ReviewCard key={review._id} {...review} />

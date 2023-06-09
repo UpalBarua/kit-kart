@@ -1,24 +1,32 @@
 import Layout from '@/components/Layout/Layout';
+import { useQuery } from '@tanstack/react-query';
+import axios from '@/api/axios';
+import ProductCard from '@/components/ProductCard/ProductCard';
+import { Product } from '@/types/product';
 
-const wishlist = () => {
+const Wishlist = () => {
+  const {
+    data: wishlistProducts = [],
+    isLoading,
+    isError,
+  } = useQuery(['wishlistProducts'], async () => {
+    try {
+      const { data } = await axios.get(`/wishlist?email=${'upal@mail.com'}`);
+      return data.products;
+    } catch (error: any) {
+      throw new Error('Failed to fetch wishlist products');
+    }
+  });
+
   return (
     <Layout>
-      <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dignissimos,
-        amet repellendus velit iure qui quisquam nesciunt minima ex ea itaque.
-        Incidunt, cupiditate esse? Saepe nemo neque atque! Cupiditate cum nisi
-        dolores eum at consequuntur perferendis, perspiciatis aspernatur vel ab
-        ducimus voluptatibus. Voluptas voluptatibus accusamus ab minima sequi
-        consequuntur rem, obcaecati delectus vitae! Tempore, eveniet? Itaque
-        veritatis numquam pariatur atque magnam, aliquid explicabo suscipit unde
-        cum exercitationem! Quia amet libero corporis ducimus, cumque laboriosam
-        velit obcaecati fugit voluptatem alias? Autem itaque deleniti obcaecati
-        rem, pariatur tempore ex id eum fugit quo dignissimos, laborum in sit?
-        Voluptate atque iure, perferendis, quis cupiditate temporibus ullam
-        labore aliquam odio veniam minima inventore consectetur non.
-      </p>
+      <ul>
+        {wishlistProducts.map((product: Product) => (
+          <ProductCard key={product._id} {...product} />
+        ))}
+      </ul>
     </Layout>
   );
 };
 
-export default wishlist;
+export default Wishlist;
