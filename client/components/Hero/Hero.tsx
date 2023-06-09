@@ -5,7 +5,7 @@ import banner2 from '../../assets/images/banner1.jpg';
 import banner3 from '../../assets/images/banner4.jpg';
 import Image from 'next/image';
 
-const Hero = () => {
+function Hero() {
   return (
     <div className="flex justify-center items-center">
       <div>
@@ -40,6 +40,6 @@ const Hero = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Hero;

@@ -6,13 +6,13 @@ interface LayoutProps {
   className?: string;
 }
 
-const Layout = ({ children, className = '' }: LayoutProps) => {
+function Layout({ children, className = '' }: LayoutProps) {
   return (
     <main className="container">
       <Navbar />
       <section className={className}>{children}</section>
     </main>
   );
-};
+}
 
 export default Layout;

@@ -10,7 +10,7 @@ import {
 } from 'react-icons/ai';
 import { useAuth } from '@/contexts/AuthContext';
 
-const Navbar = () => {
+function Navbar() {
   const { user } = useAuth();
 
   return (
@@ -102,6 +102,6 @@ const Navbar = () => {
       </nav>
     </header>
   );
-};
+}
 
 export default Navbar;

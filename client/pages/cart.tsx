@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import { useEffect, useState } from 'react';
 import CartItem from '@/components/CartItem/CartItem';
+import Link from 'next/link';
 
 const Cart = () => {
   const { cartProducts, addToCart, removeFromCart } = useCart();
@@ -60,9 +61,11 @@ const Cart = () => {
           <button className="py-3 font-semibold text-white bg-green-500 rounded-md">
             Proceed to Checkout
           </button>
-          <button className="py-3 font-semibold text-green-500 rounded-md border-2 border-green-500">
+          <Link
+            href={'products'}
+            className="py-3 font-semibold text-center text-green-500 rounded-md border-2 border-green-500">
             Continue Shopping
-          </button>
+          </Link>
         </div>
       </div>
     </Layout>

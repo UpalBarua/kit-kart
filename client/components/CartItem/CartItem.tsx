@@ -13,7 +13,7 @@ interface CartItemProps extends Product {
   removeFromCart: (_id: string) => void;
 }
 
-const CartItem = ({
+function CartItem({
   _id,
   imageUrl,
   title,
@@ -23,7 +23,7 @@ const CartItem = ({
   quantity,
   cartId,
   removeFromCart,
-}: CartItemProps) => {
+}: CartItemProps) {
   const [productQuantity, setProductQuantity] = useState(quantity);
 
   useEffect(() => {
@@ -82,6 +82,6 @@ const CartItem = ({
       </div>
     </li>
   );
-};
+}
 
 export default CartItem;

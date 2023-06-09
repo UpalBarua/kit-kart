@@ -6,6 +6,7 @@ import userRoute from './routes/user';
 import productsRoute from './routes/products';
 import cartRoute from './routes/cart';
 import wishlistRoute from './routes/wishlist';
+import reviewsRoute from './routes/reviews';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use('/user', userRoute);
 app.use('/products', productsRoute);
 app.use('/cart', cartRoute);
 app.use('/wishlist', wishlistRoute);
+app.use('/reviews', reviewsRoute);
 
 app.use((req: Request, res: Response) =>
   res.status(404).json({ message: 'Not Found' })
