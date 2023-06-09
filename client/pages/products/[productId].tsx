@@ -14,6 +14,8 @@ import { useCart } from '@/contexts/CartContext';
 import { MdAdd, MdOutlineClose } from 'react-icons/md';
 import { Product } from '@/types/product';
 import ReviewForm from '@/components/ReviewForm/ReviewForm';
+import { useQuery } from '@tanstack/react-query';
+import { Review } from '@/types/review';
 
 const REVIEWS = [
   {
@@ -122,6 +124,21 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
     addToCart({ productId: _id, productQuantity });
   };
 
+  const {
+    data: reviews = [],
+    isLoading,
+    isError,
+  } = useQuery(['reviews', _id], async () => {
+    try {
+      const { data } = await axios.get(`/reviews?productId=${_id}`);
+      return data;
+    } catch (error) {
+      throw new Error('Failed to fetch reviews');
+    }
+  });
+
+  console.log(reviews);
+
   return (
     <Layout>
       <section className="grid grid-cols-1 gap-8 py-2 lg:py-6 lg:grid-cols-10">
@@ -228,9 +245,9 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               {isReviewEditing ? <MdOutlineClose /> : <MdAdd />}
             </button>
           </div>
-          <ReviewForm isReviewEditing={isReviewEditing} />
+          <ReviewForm isReviewEditing={isReviewEditing} productId={_id} />
           <ul className="grid gap-3 lg:gap-8">
-            {REVIEWS?.map((review) => (
+            {reviews?.map((review: Review) => (
               <ReviewCard key={review._id} {...review} />
             ))}
           </ul>

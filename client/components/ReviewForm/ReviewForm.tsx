@@ -1,29 +1,48 @@
 import { FormEvent, useState } from 'react';
 import axios from '@/api/axios';
+import useUser from '@/hooks/useUser';
+import { toast } from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-function ReviewForm({ isReviewEditing }: { isReviewEditing: boolean }) {
+interface ReviewFormProps {
+  isReviewEditing: boolean;
+  productId: string;
+}
+
+function ReviewForm({ isReviewEditing, productId }: ReviewFormProps) {
   const [reviewComment, setReviewComment] = useState('');
+  const { user } = useUser();
 
-  const handleReviewSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const queryClient = useQueryClient();
 
-    if (!reviewComment || reviewComment.length === 0) return;
+  const { mutate: handleReviewSubmit } = useMutation(
+    async (event: FormEvent) => {
+      event.preventDefault();
 
-    const newReview = {
-      user: '646a98b3ddef6065b84b1809',
-      product: '647ae570d16465064a0e6223',
-      rating: 5,
-      comment: reviewComment,
-    };
+      if (!reviewComment || reviewComment.length === 0) return;
 
-    try {
-      const { data } = await axios.post('/reviews', newReview);
+      const newReview = {
+        user: user?._id,
+        product: productId,
+        rating: 5,
+        comment: reviewComment,
+      };
 
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+      try {
+        const { data } = await axios.post('/reviews', newReview);
+
+        if (data?._id) {
+          toast.success('Review added');
+          setReviewComment('');
+        }
+      } catch (error) {
+        throw new Error('Failed to submit review');
+      }
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(['reviews']),
     }
-  };
+  );
 
   return (
     <form

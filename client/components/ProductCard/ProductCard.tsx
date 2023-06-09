@@ -35,7 +35,7 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
   return (
     <li>
       <Link
-        className="grid gap-2 p-5 bg-gray-100 rounded-xl shadow-md"
+        className="grid gap-2 p-5 bg-white rounded-xl shadow-md"
         href={`/products/${_id}`}>
         {imageUrl !== 'i.ibb.co' && (
           <Image
