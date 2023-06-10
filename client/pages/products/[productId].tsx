@@ -155,7 +155,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
           <h2 className="text-2xl font-bold text-gray-800 capitalize lg:text-3xl">
             {title}
           </h2>
-
           <div className="flex gap-2 items-center text-lg text-gray-500">
             <div className="flex items-center">
               <AiFillStar className="text-lg text-yellow-500 me-1" />
@@ -170,7 +169,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               <span className="font-bold">{salesCount}+</span> Sold
             </div>
           </div>
-
           <div className="flex gap-2 items-center pb-3 text-lg text-gray-500 lg:pb-5">
             <div>
               <span>Seller </span>
@@ -182,7 +180,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               <span className="font-bold">{stock}</span>
             </div>
           </div>
-
           <div className="flex justify-between items-center pb-3">
             <p className="flex items-center text-4xl font-bold text-gray-800">
               <TbCurrencyTaka />
@@ -193,7 +190,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               setProductQuantity={setProductQuantity}
             />
           </div>
-
           <div className="flex gap-2 pb-6">
             <button className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-white bg-green-500 rounded-lg border-2 border-green-500 shadow">
               <ImPriceTag className="text-xl" />
@@ -206,7 +202,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               <span>Add to Cart</span>
             </button>
           </div>
-
           {/* Description */}
           <div className="grid gap-2 pb-5">
             <h3 className="text-xl font-bold capitalize">Description</h3>
@@ -217,7 +212,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               ))}
             </ul>
           </div>
-
           <div className="flex gap-5 items-center">
             <button className="flex gap-2 items-center font-semibold text-green-500">
               <BsFillShareFill />
@@ -229,8 +223,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
             </button>
           </div>
         </div>
-
-        {/*  */}
         <div className="pb-5 lg:col-span-3">
           <div className="flex justify-between items-center pb-6 text-xl">
             <h2 className="font-bold capitalize">Top Reviews</h2>

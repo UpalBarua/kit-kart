@@ -3,15 +3,10 @@ import ProductCard from '@/components/ProductCard/ProductCard';
 import { Product } from '@/types/product';
 import axios from '@/api/axios';
 import React from 'react';
-import Provide from '@/components/Provide/Provide';
-import Testimonial from '@/components/Testimonial/Testimonial';
-import Categories from '@/components/Categories/Categories';
-import BestSelling from '@/components/BestSelling/BestSelling';
-import NewProduct from '@/components/NewProduct/NewProduct';
-import Hero from '@/components/Hero/Hero';
 import Image from 'next/image';
 import CategoryCard from '@/components/CategoryCard/CategoryCard';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import FeaturedProducts from '@/components/FeaturedProducts/FeaturedProducts';
 
 const categories = [
   {
@@ -72,7 +67,7 @@ export const getStaticProps = async () => {
 const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
-      <section className="flex flex-col gap-5 text-center">
+      <section className="flex flex-col gap-5 text-center lg:flex-row">
         <div>
           <Image
             src={'/assets/images/banner.png'}
@@ -88,10 +83,11 @@ const Home = ({ products }: { products: Product[] }) => {
           <p className="text-xl font-semibold text-gray-600 capitalize">
             Bring the Store to Your Door
           </p>
-          <h1 className="px-6 text-gray-500">
+          <p className="px-6 text-gray-500">
             Discover new amazing Grocery Deals, We supply high quality organic
             products
-          </h1>
+          </p>
+          <FeaturedProducts />
           <div className="flex gap-4 pt-4">
             <button className="px-4 py-2 font-bold text-white bg-green-500 rounded">
               About us{' '}
@@ -99,23 +95,6 @@ const Home = ({ products }: { products: Product[] }) => {
             <button className="px-4 py-2 font-bold text-green-500 rounded border border-green-500">
               Contact Now{' '}
             </button>
-          </div>
-          <div className="grid grid-cols-3 gap-4 pt-4 pr-4">
-            <Image
-              src={'/assets/images/banner1.jpg'}
-              alt=""
-              height={200}
-              width={200}></Image>
-            <Image
-              src={'/assets/images/banner2.jpg'}
-              alt=""
-              height={200}
-              width={200}></Image>
-            <Image
-              src={'/assets/images/banner4.jpg'}
-              alt=""
-              height={180}
-              width={180}></Image>
           </div>
         </div>
       </section>

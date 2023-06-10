@@ -62,6 +62,19 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/random', async (req, res) => {
+  console.log('first');
+
+  try {
+    // const products = await Product.aggregate([{ $sample: { size: 5 } }]);
+    const products = await Product.find({});
+    console.log(products);
+    res.status(200).json(products);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.delete('/', async (req, res) => {
   try {
     const result = await Product.findOne({

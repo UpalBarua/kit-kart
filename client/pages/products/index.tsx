@@ -80,7 +80,7 @@ function Products() {
             />
           </div>
           <button
-            className="p-3 text-2xl text-white bg-green-400 rounded-md"
+            className="p-3 text-2xl text-white bg-green-400 rounded-md lg:hidden"
             type="button"
             onClick={toggleFilterOpen}>
             <BiFilterAlt />
