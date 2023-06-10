@@ -11,6 +11,7 @@ import NewProduct from '@/components/NewProduct/NewProduct';
 import Hero from '@/components/Hero/Hero';
 import Image from 'next/image';
 import CategoryCard from '@/components/CategoryCard/CategoryCard';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 const categories = [
   {
@@ -71,7 +72,53 @@ export const getStaticProps = async () => {
 const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
-      {/* <Hero></Hero> */}
+      <section className="flex flex-col gap-5 text-center">
+        <div>
+          <Image
+            src={'/assets/images/banner.png'}
+            alt=""
+            height={550}
+            width={600}></Image>
+        </div>
+        <div>
+          <h1 className="flex gap-3 justify-center items-center text-4xl font-bold tracking-wide text-green-500">
+            <AiOutlineShoppingCart className="text-5xl" />
+            <span>Kit Kart</span>
+          </h1>
+          <p className="text-xl font-semibold text-gray-600 capitalize">
+            Bring the Store to Your Door
+          </p>
+          <h1 className="px-6 text-gray-500">
+            Discover new amazing Grocery Deals, We supply high quality organic
+            products
+          </h1>
+          <div className="flex gap-4 pt-4">
+            <button className="px-4 py-2 font-bold text-white bg-green-500 rounded">
+              About us{' '}
+            </button>
+            <button className="px-4 py-2 font-bold text-green-500 rounded border border-green-500">
+              Contact Now{' '}
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-4 pt-4 pr-4">
+            <Image
+              src={'/assets/images/banner1.jpg'}
+              alt=""
+              height={200}
+              width={200}></Image>
+            <Image
+              src={'/assets/images/banner2.jpg'}
+              alt=""
+              height={200}
+              width={200}></Image>
+            <Image
+              src={'/assets/images/banner4.jpg'}
+              alt=""
+              height={180}
+              width={180}></Image>
+          </div>
+        </div>
+      </section>
       <section>
         <p className="font-semibold text-gray-500 lg:text-lg">
           Browser Our Hottest
@@ -89,7 +136,7 @@ const Home = ({ products }: { products: Product[] }) => {
       {/* <NewProduct></NewProduct> */}
       {/* <Provide></Provide> */}
       {/* <Testimonial></Testimonial> */}
-      <ul className="grid gap-6 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
         {products &&
           products?.map((product) => (
             <ProductCard key={product._id} {...product} />

@@ -31,41 +31,49 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
     setIsWishListed((prevIsWishListed) => !prevIsWishListed);
     return addToWishlist(_id);
   };
+  // TODO - solve this i.bb.co problem
+
+  if (imageUrl === 'i.ibb.co') return <></>;
 
   return (
     <li>
       <Link
-        className="grid gap-2 p-5 bg-white rounded-xl shadow-md"
+        className="flex gap-3 p-2 bg-white rounded-xl border-2 border-gray-100 shadow-md lg:p-4 lg:flex-col"
         href={`/products/${_id}`}>
-        {imageUrl !== 'i.ibb.co' && (
+        <div>
           <Image
-            className="object-cover object-center w-full h-56 rounded-xl"
+            style={{
+              minHeight: '100%',
+            }}
+            className="object-cover object-center h-full bg-gray-200 rounded-xl max-w-48 lg:w-full lg:h-56"
             src={imageUrl}
             alt={title}
             height={200}
             width={200}
           />
-        )}
-        <h3 className="text-2xl font-bold">{title}</h3>
-        <p className="text-gray-600">{description?.main.slice(0, 80)}</p>
-        <footer className="flex justify-between items-center pt-2">
-          <p className="flex items-center text-3xl font-bold text-green-500">
-            <TbCurrencyTaka />
-            <span>{price}</span>
-          </p>
-          <div>
-            <button
-              className={`p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full`}
-              onClick={handleAddToWishlist}>
-              {isWishListed ? <AiFillHeart /> : <AiOutlineHeart />}
-            </button>
-            <button
-              className="p-2 text-3xl text-white bg-green-500 rounded-full"
-              onClick={handleAddToCart}>
-              <MdAdd />
-            </button>
-          </div>
-        </footer>
+        </div>
+        <div>
+          <h3 className="text-lg font-bold">{title}</h3>
+          <p className="text-gray-600">{description?.main.slice(0, 50)}</p>
+          <footer className="flex justify-between items-center pt-3 lg:pt-5">
+            <p className="flex items-center text-2xl font-bold text-green-500 lg:text-3xl">
+              <TbCurrencyTaka />
+              <span>{price}</span>
+            </p>
+            <div>
+              <button
+                className={`p-2 mr-2 text-2xl text-pink-500 bg-pink-200 rounded-full`}
+                onClick={handleAddToWishlist}>
+                {isWishListed ? <AiFillHeart /> : <AiOutlineHeart />}
+              </button>
+              <button
+                className="p-2 text-2xl text-white bg-green-500 rounded-full"
+                onClick={handleAddToCart}>
+                <MdAdd />
+              </button>
+            </div>
+          </footer>
+        </div>
       </Link>
     </li>
   );
