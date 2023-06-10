@@ -6,10 +6,10 @@ interface ProductQuantityProps {
   productQuantity: number;
 }
 
-const ProductQuantity = ({
+function ProductQuantity({
   setProductQuantity,
   productQuantity,
-}: ProductQuantityProps) => {
+}: ProductQuantityProps) {
   const handleProductQuantity = (type: 'inc' | 'dec') => {
     setProductQuantity((prevProductQuantity) => {
       if (type === 'inc') {
@@ -32,7 +32,7 @@ const ProductQuantity = ({
         <GrFormSubtract />
       </button>
       <input
-        className="w-16 text-center border-0 focus:ring-0"
+        className="w-16 text-center bg-green-50 border-0 focus:ring-0"
         type="number"
         min="0"
         max="100"
@@ -46,6 +46,6 @@ const ProductQuantity = ({
       </button>
     </div>
   );
-};
+}
 
 export default ProductQuantity;

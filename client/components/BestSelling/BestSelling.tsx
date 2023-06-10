@@ -1,10 +1,10 @@
 import React from 'react';
-import image1 from '../../assets/images/bestselling/juice.png';
-import image2 from '../../assets/images/bestselling/fruits.png';
-import image3 from '../../assets/images/bestselling/ice.png';
-import image4 from '../../assets/images/bestselling/meat.png';
-import image5 from '../../assets/images/bestselling/drinks1.png';
-import image6 from '../../assets/images/bestselling/chips1.png';
+import image1 from 'assets/images/bestselling/juice.png';
+import image2 from 'assets/images/bestselling/fruits.png';
+import image3 from 'assets/images/bestselling/ice.png';
+import image4 from 'assets/images/bestselling/meat.png';
+import image5 from 'assets/images/bestselling/drinks1.png';
+import image6 from 'assets/images/bestselling/chips1.png';
 import BestSellingCard from './BestSellingCard';
 import { MdOutlineHotelClass } from 'react-icons/md';
 

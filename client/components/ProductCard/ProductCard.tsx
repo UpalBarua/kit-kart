@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { TbCurrencyTaka } from 'react-icons/tb';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { MdAdd } from 'react-icons/md';
 import { useCart } from '@/contexts/CartContext';
 import { Product } from '@/types/product';
@@ -55,11 +55,9 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
           </p>
           <div>
             <button
-              className={`p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full ${
-                isWishListed ? 'bg-red-400' : 'bg-ping-200'
-              }`}
+              className={`p-2 mr-2 text-3xl text-pink-500 bg-pink-200 rounded-full`}
               onClick={handleAddToWishlist}>
-              <AiOutlineHeart />
+              {isWishListed ? <AiFillHeart /> : <AiOutlineHeart />}
             </button>
             <button
               className="p-2 text-3xl text-white bg-green-500 rounded-full"

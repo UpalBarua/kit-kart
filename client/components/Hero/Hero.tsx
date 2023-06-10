@@ -1,8 +1,8 @@
 import React from 'react';
-import banner from '../../assets/images/banner.png';
-import banner1 from '../../assets/images/banner2.jpg';
-import banner2 from '../../assets/images/banner1.jpg';
-import banner3 from '../../assets/images/banner4.jpg';
+import banner from 'assets/images/banner.png';
+import banner1 from 'assets/images/banner2.jpg';
+import banner2 from 'assets/images/banner1.jpg';
+import banner3 from 'assets/images/banner4.jpg';
 import Image from 'next/image';
 
 function Hero() {

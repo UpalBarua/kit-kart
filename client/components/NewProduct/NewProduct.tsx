@@ -1,37 +1,37 @@
-import React from "react";
+import React from 'react';
 
-import image1 from "../../assets/images/newProduct/biscuits.png";
-import image2 from "../../assets/images/newProduct/chicken.png";
-import image3 from "../../assets/images/newProduct/choclate.png";
-import image4 from "../../assets/images/newProduct/organic.png";
-import image5 from "../../assets/images/newProduct/vitamin.png";
-import image6 from "../../assets/images/newProduct/cold2.png";
-import NewProductCard from "./NewProductCard";
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import image1 from 'assets/images/newProduct/biscuits.png';
+import image2 from 'assets/images/newProduct/chicken.png';
+import image3 from 'assets/images/newProduct/choclate.png';
+import image4 from 'assets/images/newProduct/organic.png';
+import image5 from 'assets/images/newProduct/vitamin.png';
+import image6 from 'assets/images/newProduct/cold2.png';
+import NewProductCard from './NewProductCard';
+import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
 
 const results = [
   {
-    id: "1",
+    id: '1',
     img: image1,
   },
   {
-    id: "2",
+    id: '2',
     img: image2,
   },
   {
-    id: "3",
+    id: '3',
     img: image3,
   },
   {
-    id: "4",
+    id: '4',
     img: image4,
   },
   {
-    id: "5",
+    id: '5',
     img: image5,
   },
   {
-    id: "6",
+    id: '6',
     img: image6,
   },
 ];
