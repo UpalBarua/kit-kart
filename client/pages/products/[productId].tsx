@@ -18,36 +18,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Review } from '@/types/review';
 import { toast } from 'react-hot-toast';
 
-const REVIEWS = [
-  {
-    _id: 0,
-    userName: 'Upal Barua',
-    rating: '5.0',
-    reviewText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
-    createdAt: '10th may 2023',
-    reviewLikes: '10',
-  },
-  {
-    _id: 1,
-    userName: 'Upal Barua',
-    rating: '5.0',
-    reviewText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
-    createdAt: '10th may 2023',
-    reviewLikes: '10',
-  },
-  {
-    _id: 3,
-    userName: 'Upal Barua',
-    rating: '5.0',
-    reviewText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium amet sint exercitationem',
-    createdAt: '10th may 2023',
-    reviewLikes: '10',
-  },
-];
-
 export const getStaticPaths = async () => {
   try {
     const { data: products } = await axios.get('/products');
@@ -140,7 +110,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
   return (
     <Layout>
       <section className="grid grid-cols-1 gap-8 py-2 lg:py-6 lg:grid-cols-10">
-        {/* Product Image */}
         <div className="rounded-md lg:col-span-3 shadow-m">
           <Image
             src={imageUrl}
@@ -150,7 +119,6 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
             className="w-full h-[20rem] lg:h-[25rem] object-cover object-center rounded-xl shadow-lg"
           />
         </div>
-        {/* Product description */}
         <div className="grid gap-1 content-start lg:col-span-4">
           <h2 className="text-2xl font-bold text-gray-800 capitalize lg:text-3xl">
             {title}

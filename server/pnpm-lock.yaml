@@ -13,6 +13,9 @@ dependencies:
   mongoose:
     specifier: ^7.1.2
     version: 7.1.2
+  stripe:
+    specifier: ^12.9.0
+    version: 12.9.0
 
 devDependencies:
   '@types/cors':
@@ -971,6 +974,14 @@ packages:
     dependencies:
       ansi-regex: 5.0.1
     dev: true
+
+  /stripe@12.9.0:
+    resolution: {integrity: sha512-stYtrWetRYUsEbsUVyJaPG9Sppt0ds2szBqXsuDG6KZPPuUmCccbpceLrhoOBwNl1RziEfNB7oG9wg1n2eW+EQ==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.2.1
+      qs: 6.11.0
+    dev: false
 
   /supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}

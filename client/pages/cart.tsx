@@ -3,14 +3,17 @@ import { useCart } from '@/contexts/CartContext';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { CartProduct, Product } from '@/types/product';
 import Image from 'next/image';
-
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CartItem from '@/components/CartItem/CartItem';
 import Link from 'next/link';
+import axios from '@/api/axios';
 
 const Cart = () => {
   const { cartProducts, addToCart, removeFromCart } = useCart();
   const [subTotal, setSubTotal] = useState(0);
+
+  const router = useRouter();
 
   useEffect(() => {
     const summedTotal = cartProducts.reduce(
@@ -22,6 +25,19 @@ const Cart = () => {
 
     setSubTotal(summedTotal);
   }, [cartProducts]);
+
+  const handleCheckout = async () => {
+    try {
+      const { data } = await axios.post('/payment/create-checkout-session', {
+        products: cartProducts,
+      });
+      if (data?.url) {
+        router.push(data.url);
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <Layout className="flex items-start">
@@ -58,7 +74,9 @@ const Cart = () => {
           <p>{subTotal + 90 + 20} BDT</p>
         </div>
         <div className="flex flex-col gap-2">
-          <button className="py-3 font-semibold text-white bg-green-500 rounded-md">
+          <button
+            className="py-3 font-semibold text-white bg-green-500 rounded-md"
+            onClick={handleCheckout}>
             Proceed to Checkout
           </button>
           <Link
