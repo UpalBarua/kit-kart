@@ -4,6 +4,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { CartProvider } from '@/contexts/CartContext';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import 'react-photo-view/dist/react-photo-view.css';
 
 const client = new QueryClient();
 
