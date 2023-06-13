@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
   const { body } = req;
 
   try {
-    const result = await Product.insertMany(body);
+    const result = await Product.create(body);
     res.json(result);
   } catch (error: any) {
     res.send(error.message);
@@ -76,14 +76,30 @@ router.get('/random', async (req, res) => {
 });
 
 router.delete('/', async (req, res) => {
-  try {
-    const result = await Product.findOne({
-      title: 'A Bottle Of Pepsi (2 Ltr)',
-    });
+  const { productId } = req.query;
 
-    res.json(result);
+  try {
+    const result = await Product.findOneAndDelete({ _id: productId });
+    res.status(200).json(result);
   } catch (error: any) {
-    res.json({ message: error.message });
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: id },
+      { $set: body },
+      { new: true }
+    );
+
+    res.status(200).json(updatedProduct);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 });
 

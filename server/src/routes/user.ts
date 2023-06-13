@@ -3,20 +3,6 @@ import User from '../models/User';
 
 const router = Router();
 
-// router.get('/', async (req: Request, res: Response) => {
-//   try {
-//     const users = await User.find({});
-
-//     if (users.length === 0) {
-//       return res.status(404).json({ message: 'No user found' });
-//     }
-
-//     res.status(200).json(users);
-//   } catch (error: any) {
-//     res.status(500).json({ message: error.message });
-//   }
-// });
-
 router.get('/', async (req: Request, res: Response) => {
   const { email } = req.query;
 

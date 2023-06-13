@@ -67,7 +67,7 @@ export const getStaticProps = async () => {
 const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
-      <section className="flex flex-col gap-5 text-center lg:flex-row">
+      <section className="flex flex-col gap-5 lg:flex-row">
         <div>
           <Image
             src={'/assets/images/banner.png'}

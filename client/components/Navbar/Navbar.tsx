@@ -9,6 +9,7 @@ import {
   AiOutlineHeart,
 } from 'react-icons/ai';
 import { useAuth } from '@/contexts/AuthContext';
+import Logo from '../Logo/Logo';
 
 function Navbar() {
   const { user } = useAuth();
@@ -16,17 +17,7 @@ function Navbar() {
   return (
     <header className="sticky top-0 py-3 bg-green-50">
       <nav className="flex justify-between items-center">
-        <Link className="flex gap-2 items-center" href="/">
-          <AiOutlineShoppingCart className="text-4xl text-green-500" />
-          <div className="flex flex-col">
-            <span className="text-lg font-bold leading-none text-green-500 capitalize">
-              Kit Kart
-            </span>
-            <span className="text-sm leading-none text-gray-500 capitalize">
-              groceries
-            </span>
-          </div>
-        </Link>
+        <Logo />
         <ul className="flex gap-2 items-center text-gray-800 lg:gap-4">
           <li>
             <Link
@@ -69,7 +60,7 @@ function Navbar() {
                 </Link>
               </li>
               <li className="flex gap-1 items-center">
-                <div className="flex gap-2 items-center">
+                <Link href={'/profile'} className="flex gap-2 items-center">
                   <Image
                     className="object-cover object-center w-10 h-10 rounded-full border-2 border-green-500"
                     src="https://i.ibb.co/RhdnmJG/dp.jpg"
@@ -81,7 +72,7 @@ function Navbar() {
                     <p className="font-semibold">Upal Barua</p>
                     <p className="text-sm text-gray-600">upal@mail.com</p>
                   </div>
-                </div>
+                </Link>
               </li>
             </>
           ) : (

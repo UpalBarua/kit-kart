@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react';
 import CartItem from '@/components/CartItem/CartItem';
 import Link from 'next/link';
 import axios from '@/api/axios';
+import useUser from '@/hooks/useUser';
 
 const Cart = () => {
   const { cartProducts, addToCart, removeFromCart } = useCart();
   const [subTotal, setSubTotal] = useState(0);
+  const { user } = useUser();
 
   const router = useRouter();
 
@@ -31,7 +33,12 @@ const Cart = () => {
       const { data } = await axios.post('/payment/create-checkout-session', {
         products: cartProducts,
       });
+
       if (data?.url) {
+        await axios.post('/orders', {
+          user: user._id,
+          orders: cartProducts,
+        });
         router.push(data.url);
       }
     } catch (error: any) {
