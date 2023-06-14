@@ -7,6 +7,7 @@ import {
 import Link from 'next/link';
 import { BsArchive, BsTruck } from 'react-icons/bs';
 import { BiCog } from 'react-icons/bi';
+import { FiUsers, FiLogOut } from 'react-icons/fi';
 import Logo from '@/components/Logo/Logo';
 
 const links = [
@@ -27,12 +28,12 @@ const links = [
   },
   {
     title: 'Users',
-    Icon: <BiCog />,
+    Icon: <FiUsers />,
     link: '/dashboard/users',
   },
   {
     title: 'Logout',
-    Icon: <BiCog />,
+    Icon: <FiLogOut />,
     link: '/dashboard/logout',
   },
 ];

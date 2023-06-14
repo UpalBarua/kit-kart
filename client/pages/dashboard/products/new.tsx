@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
 import DashboardLayout from '@/components/DashboardLayout/DashboardLayout';
 import axios from '@/api/axios';
+import { useRouter } from 'next/router';
 
 function New() {
   const { register, handleSubmit } = useForm();
+  const { back } = useRouter();
 
   const handleAddProduct = async ({
     title,
@@ -30,7 +32,9 @@ function New() {
 
     try {
       const { data } = await axios.post('/products', newProduct);
-      console.log(data);
+      if (data) {
+        back();
+      }
     } catch (error) {
       console.log(error);
     }

@@ -9,7 +9,7 @@ function useUser() {
     ['user', currentUser?.email],
     async () => {
       try {
-        const { data } = await axios.get(`/user?email=${currentUser?.email}`);
+        const { data } = await axios.get(`/user/${currentUser?.email}`);
         return data;
       } catch (error: any) {
         throw new Error('Failed to fetch user data');

@@ -60,4 +60,9 @@ router.patch('/', async (req: Request, res: Response) => {
   }
 });
 
+router.delete('/', async (req, res) => {
+  const result = await Cart.findOneAndDelete({ userEmail: 'upal@mail.com' });
+  res.json(result);
+});
+
 export default router;

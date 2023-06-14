@@ -20,7 +20,7 @@ const Cart = () => {
   useEffect(() => {
     const summedTotal = cartProducts.reduce(
       (sum: number, { product, quantity }: CartProduct) => {
-        return sum + +product.price * quantity;
+        return sum + +product?.price * quantity;
       },
       0
     );
@@ -39,6 +39,7 @@ const Cart = () => {
           user: user._id,
           orders: cartProducts,
         });
+
         router.push(data.url);
       }
     } catch (error: any) {

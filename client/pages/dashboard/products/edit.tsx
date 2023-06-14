@@ -8,8 +8,8 @@ import axios from '@/api/axios';
 function Edit() {
   const { register, handleSubmit } = useForm();
 
-  const router = useRouter();
-  const { productId } = router.query;
+  const { back, query } = useRouter();
+  const { productId } = query;
 
   const { data: productDetails = {} } = useQuery(
     ['productDetails', productId],
@@ -26,7 +26,7 @@ function Edit() {
   const { _id, title, price, stock, category, description } = productDetails;
 
   const handleEditProduct = async ({ title, description }) => {
-    const newProduct = {
+    const updatedProduct = {
       title,
       imageUrl: 'i.ibb.co',
       ratingAvg: '2k',
@@ -43,8 +43,10 @@ function Edit() {
     };
 
     try {
-      const { data } = await axios.put(`/products/${_id}`, newProduct);
-      console.log(data);
+      const { data } = await axios.put(`/products/${_id}`, updatedProduct);
+      if (data) {
+        back();
+      }
     } catch (error) {
       console.log(error);
     }
