@@ -1,19 +1,18 @@
-import Image from "next/image";
-import React from "react";
-import { VscPreview } from "react-icons/vsc";
+import Image from 'next/image';
+import React from 'react';
+import { VscPreview } from 'react-icons/vsc';
 
 const TestimonialCard = ({ review }) => {
   const { name, id, text, image } = review;
   return (
-    <div className="p-4 border-r-2 border-green-500 ">
+    <div className="p-10 bg-white rounded-md border-green-500 shadow">
       <Image
-        className="rounded-full h-14 w-14"
+        className="object-cover object-center w-14 h-14 rounded-full"
         src={image}
         alt=""
         height="70"
-        width="70"
-      ></Image>
-      <div className="flex items-center gap-4 pt-4 text-green-500">
+        width="70"></Image>
+      <div className="flex gap-4 items-center pt-4 text-green-500">
         <VscPreview></VscPreview>
         <h1 className="text-[1rem] font-bold">{name}</h1>
       </div>

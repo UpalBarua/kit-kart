@@ -5,16 +5,16 @@ import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import Layout from '@/components/Layout/Layout';
-
 import Lottie from 'lottie-react';
-
-import lotto25 from '../../client/assets/login5.json';
+import animationData from '@/public/assets/login5.json';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 const Login = () => {
-  const { registerUser } = useAuth();
-  const [loginError, setRegisterError] = useState(
-    'This is a big error message. which will be displayed when there is any error related to user registration.'
-  );
+  const { logIn, user } = useAuth();
+  const [loginError, setRegisterError] = useState('');
+
+  const { push } = useRouter();
 
   const {
     register,
@@ -22,7 +22,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const handleRegister = async ({
+  const handleLogIn = async ({
     email,
     password,
   }: {
@@ -30,22 +30,20 @@ const Login = () => {
     password: string;
   }) => {
     try {
-      const { user } = await registerUser(email, password);
-
-      // TODO: Add a toast or something that will notify the user about the success
-      // TODO: Add a loading spinner
+      const { user } = await logIn(email, password);
 
       if (user?.uid) {
-        console.log('User created.');
+        push('/');
       }
-    } catch (error) {
-      // TODO: Add a toast or something that will notify the user about the error
-      console.log(error);
+    } catch (error: any) {
       setRegisterError(error?.message);
     }
   };
 
-  // ! p-0 in line 38 might need to be removed
+  if (user?.uid) {
+    return push('/404');
+  }
+
   return (
     <Layout>
       <section className="container grid my-10 rounded-lg lg:p-0 lg:shadow lg:bg-gray-100 lg:grid-cols-2">
@@ -56,12 +54,12 @@ const Login = () => {
           <p className="pb-4 text-gray-600 lg:pb-6 ms-1">
             Welcome back, login to your account
           </p>
-          {!loginError.length > 0 && (
+          {loginError.length > 0 && (
             <p className="p-4 mb-5 text-red-600 bg-red-200 rounded-md border-2 border-red-400">
               {loginError}
             </p>
           )}
-          <form className="grid gap-2" onSubmit={handleSubmit(handleRegister)}>
+          <form className="grid gap-2" onSubmit={handleSubmit(handleLogIn)}>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="email">
                 Email Address
@@ -70,8 +68,8 @@ const Login = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="email"
                 type="text"
+                {...register('email')}
               />
-              <p className="text-sm text-red-500">this is a message</p>
             </fieldset>
             <fieldset className="grid gap-2">
               <label className="capitalize" htmlFor="password">
@@ -81,8 +79,8 @@ const Login = () => {
                 className="py-3 rounded-md focus:ring-green-500 focus:outline-none"
                 id="password"
                 type="password"
+                {...register('password')}
               />
-              <p className="text-sm text-red-500">this is a message</p>
             </fieldset>
             <div className="flex justify-between">
               <fieldset className="flex gap-2 items-center">
@@ -117,7 +115,7 @@ const Login = () => {
         <div className="hidden place-content-center bg-gray-200 lg:grid">
           <Lottie
             className="scale-110"
-            animationData={lotto25}
+            animationData={animationData}
             loop={true}></Lottie>
         </div>
       </section>

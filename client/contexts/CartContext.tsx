@@ -65,8 +65,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           products: updatedCartProducts,
         });
 
-        console.log(updatedCartProducts);
-
         if (status === 200) {
           toast.success('Product added to cart');
         }

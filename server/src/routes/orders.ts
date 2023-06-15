@@ -16,9 +16,9 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const order = await Order.findOne({ user: id });
+    const order = await Order.find({ user: id });
     res.status(200).json(order);
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 });

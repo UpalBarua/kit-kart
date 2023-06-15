@@ -18,7 +18,7 @@ function ReviewForm({
 }: ReviewFormProps) {
   const [reviewComment, setReviewComment] = useState('');
   const [rating, setRating] = useState(0);
-  const { user } = useUser();
+  const { _id } = useUser();
 
   const queryClient = useQueryClient();
 
@@ -29,7 +29,7 @@ function ReviewForm({
       if (!reviewComment || reviewComment.length === 0) return;
 
       const newReview = {
-        user: user?._id,
+        user: _id,
         product: productId,
         rating: rating,
         comment: reviewComment,

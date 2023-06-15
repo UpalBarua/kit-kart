@@ -7,6 +7,8 @@ import Image from 'next/image';
 import CategoryCard from '@/components/CategoryCard/CategoryCard';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import FeaturedProducts from '@/components/FeaturedProducts/FeaturedProducts';
+import Testimonial from '@/components/Testimonial/Testimonial';
+import { useAuth } from '@/contexts/AuthContext';
 
 const categories = [
   {
@@ -67,38 +69,21 @@ export const getStaticProps = async () => {
 const Home = ({ products }: { products: Product[] }) => {
   return (
     <Layout>
-      <section className="flex flex-col gap-5 lg:flex-row">
-        <div>
-          <Image
-            src={'/assets/images/banner.png'}
-            alt=""
-            height={550}
-            width={600}></Image>
-        </div>
-        <div>
-          <h1 className="flex gap-3 justify-center items-center text-4xl font-bold tracking-wide text-green-500">
-            <AiOutlineShoppingCart className="text-5xl" />
-            <span>Kit Kart</span>
-          </h1>
-          <p className="text-xl font-semibold text-gray-600 capitalize">
-            Bring the Store to Your Door
-          </p>
-          <p className="px-6 text-gray-500">
-            Discover new amazing Grocery Deals, We supply high quality organic
-            products
-          </p>
-          <FeaturedProducts />
-          <div className="flex gap-4 pt-4">
-            <button className="px-4 py-2 font-bold text-white bg-green-500 rounded">
-              About us{' '}
-            </button>
-            <button className="px-4 py-2 font-bold text-green-500 rounded border border-green-500">
-              Contact Now{' '}
-            </button>
-          </div>
-        </div>
+      <section className="flex flex-col gap-2 pb-16 text-center">
+        <h1 className="flex gap-3 justify-center items-center text-3xl font-bold tracking-wide text-green-500">
+          <AiOutlineShoppingCart className="text-5xl" />
+          <span>Kit Kart</span>
+        </h1>
+        <p className="text-xl font-semibold text-gray-600 capitalize">
+          Bring the Store to Your Door
+        </p>
+        <p className="px-6 text-gray-500">
+          Discover new amazing Grocery Deals, We supply high quality organic
+          products
+        </p>
+        <FeaturedProducts products={products.slice(0, 8)} />
       </section>
-      <section>
+      <section className="pb-16">
         <p className="font-semibold text-gray-500 lg:text-lg">
           Browser Our Hottest
         </p>
@@ -111,16 +96,54 @@ const Home = ({ products }: { products: Product[] }) => {
           ))}
         </ul>
       </section>
-      {/* <BestSelling></BestSelling> */}
-      {/* <NewProduct></NewProduct> */}
-      {/* <Provide></Provide> */}
-      {/* <Testimonial></Testimonial> */}
-      <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
-        {products &&
-          products?.map((product) => (
+      <section className="pb-16">
+        <p className="font-semibold text-gray-500 lg:text-lg">
+          Browser New Products
+        </p>
+        <h2 className="pb-5 text-2xl font-bold text-green-500 uppercase lg:text-3xl lg:pb-6">
+          New Products
+        </h2>
+        <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+          {products.slice(8, 17).map((product) => (
             <ProductCard key={product._id} {...product} />
           ))}
-      </ul>
+        </ul>
+      </section>
+      <section className="pb-16">
+        <p className="font-semibold text-gray-500 lg:text-lg">
+          See Our Bestselling Products
+        </p>
+        <h2 className="pb-5 text-2xl font-bold text-green-500 uppercase lg:text-3xl lg:pb-6">
+          Bestsellers
+        </h2>
+        <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+          {products.slice(17, 25).map((product) => (
+            <ProductCard key={product._id} {...product} />
+          ))}
+        </ul>
+      </section>
+      <section className="pb-16">
+        <p className="font-semibold text-gray-500 lg:text-lg">
+          Products On Sale
+        </p>
+        <h2 className="pb-5 text-2xl font-bold text-green-500 uppercase lg:text-3xl lg:pb-6">
+          Discounted Products
+        </h2>
+        <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
+          {products.slice(25, 34).map((product) => (
+            <ProductCard key={product._id} {...product} />
+          ))}
+        </ul>
+      </section>
+      <section className="pb-16">
+        <p className="font-semibold text-gray-500 lg:text-lg">
+          What Are Customers Saying?
+        </p>
+        <h2 className="pb-5 text-2xl font-bold text-green-500 uppercase lg:text-3xl lg:pb-6">
+          Testimonials
+        </h2>
+        <Testimonial />
+      </section>
     </Layout>
   );
 };

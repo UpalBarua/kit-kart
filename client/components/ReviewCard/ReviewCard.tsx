@@ -1,4 +1,9 @@
-import { AiFillLike, AiFillStar, AiOutlineDelete } from 'react-icons/ai';
+import {
+  AiOutlineUser,
+  AiFillLike,
+  AiFillStar,
+  AiOutlineDelete,
+} from 'react-icons/ai';
 import { Review } from '@/types/review';
 import { format } from 'date-fns';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -8,7 +13,7 @@ import useUser from '@/hooks/useUser';
 
 const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
   const queryClient = useQueryClient();
-  const { user: currentUser } = useUser();
+  const { email } = useUser();
 
   const { mutate: handleReviewDelete } = useMutation(
     async () => {
@@ -25,11 +30,18 @@ const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
   );
 
   return (
-    <li className="grid gap-3">
+    <li className="grid gap-3 p-4 bg-white rounded-md shadow">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <div className="w-8 h-8 bg-gray-300 rounded-full shadow"></div>
-          <p className="font-semibold">{user?.userName}</p>
+          <div className="flex justify-center items-center w-8 h-8 text-2xl bg-gray-200 rounded-full shadow-sm">
+            <AiOutlineUser />
+          </div>
+          <div className="ps-1">
+            <p className="font-semibold">{user?.userName}</p>
+            <p className="text-sm text-gray-600">
+              {format(new Date(createdAt), 'MMMM d, yyyy')}
+            </p>
+          </div>
         </div>
         <div className="flex gap-1 items-center font-semibold">
           <AiFillStar className="text-yellow-500" />
@@ -38,20 +50,13 @@ const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
       </div>
       <p className="p-1 text-gray-800">{comment}</p>
       <footer className="flex justify-between items-center text-gray-500">
-        <div className="flex gap-4">
-          <button className="flex gap-1 items-center text-lg">
-            <AiFillLike />
-            <span>{'10'}</span>
+        {email === user.email && (
+          <button
+            className="flex gap-1 items-center text-lg"
+            onClick={handleReviewDelete}>
+            <AiOutlineDelete />
           </button>
-          {currentUser?.email === user.email && (
-            <button
-              className="flex gap-1 items-center text-lg"
-              onClick={handleReviewDelete}>
-              <AiOutlineDelete />
-            </button>
-          )}
-        </div>
-        <p className="text-sm">{format(new Date(createdAt), 'MMMM d, yyyy')}</p>
+        )}
       </footer>
     </li>
   );

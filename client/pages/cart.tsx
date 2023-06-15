@@ -13,9 +13,9 @@ import useUser from '@/hooks/useUser';
 const Cart = () => {
   const { cartProducts, addToCart, removeFromCart } = useCart();
   const [subTotal, setSubTotal] = useState(0);
-  const { user } = useUser();
+  const { _id } = useUser();
 
-  const router = useRouter();
+  const { push } = useRouter();
 
   useEffect(() => {
     const summedTotal = cartProducts.reduce(
@@ -36,7 +36,7 @@ const Cart = () => {
 
       if (data?.url) {
         await axios.post('/orders', {
-          user: user._id,
+          user: _id,
           orders: cartProducts,
         });
 
@@ -46,6 +46,12 @@ const Cart = () => {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    if (!_id) {
+      push('/login');
+    }
+  }, [_id, push]);
 
   return (
     <Layout className="flex items-start">

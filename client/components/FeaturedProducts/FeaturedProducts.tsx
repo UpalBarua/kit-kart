@@ -1,19 +1,11 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
-
-// import './styles.css';
-
-// import required modules
 import { EffectCoverflow, Pagination } from 'swiper';
-
 import ProductCard from '../ProductCard/ProductCard';
 import { TbCurrencyTaka } from 'react-icons/tb';
 
@@ -121,9 +113,9 @@ const featuredProducts = [
   },
 ];
 
-export default function App() {
+export default function App({ products }) {
   return (
-    <div className="p-10">
+    <div className="px-20">
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -140,38 +132,11 @@ export default function App() {
         pagination={true}
         modules={[EffectCoverflow]}
         className="mySwiper">
-        {featuredProducts?.map(
-          ({ _id, imageUrl, title, description, price }) => (
-            <SwiperSlide key={_id} style={{ maxWidth: '20rem' }}>
-              <Link
-                className="grid gap-3 p-3 bg-white rounded-xl border-2 border-gray-100 shadow-md lg:p-4"
-                href={`/products/${_id}`}>
-                <Image
-                  // style={{
-                  //   minHeight: '100%',
-                  // }}
-                  className="object-cover object-center w-full h-full bg-gray-200 rounded-xl lg:h-56"
-                  src={imageUrl}
-                  alt={title}
-                  height={200}
-                  width={200}
-                />
-                <div>
-                  <h3 className="text-lg font-bold">{title}</h3>
-                  <p className="text-gray-600">
-                    {description?.main.slice(0, 50)}
-                  </p>
-                  <footer className="flex justify-between items-center pt-3 lg:pt-5">
-                    <p className="flex items-center text-2xl font-bold text-green-500 lg:text-3xl">
-                      <TbCurrencyTaka />
-                      <span>{price}</span>
-                    </p>
-                  </footer>
-                </div>
-              </Link>
-            </SwiperSlide>
-          )
-        )}
+        {products?.map((product) => (
+          <SwiperSlide key={product._id} style={{ maxWidth: '20rem' }}>
+            <ProductCard {...product} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

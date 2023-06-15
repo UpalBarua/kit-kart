@@ -12,6 +12,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 
 interface AuthContextProps {
@@ -41,13 +43,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  const logIn = (email: string, password: string) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
   const googleLogin = () => {
     return signInWithPopup(auth, googleAuth);
   };
 
+  const logOut = () => {
+    return signOut(auth);
+  };
+
   const value = {
     registerUser,
+    logIn,
     googleLogin,
+    logOut,
     user,
   };
 

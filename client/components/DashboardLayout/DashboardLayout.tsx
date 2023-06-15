@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useReducer, useState } from 'react';
 import {
   AiOutlineHome,
   AiOutlineShoppingCart,
@@ -9,6 +9,9 @@ import { BsArchive, BsTruck } from 'react-icons/bs';
 import { BiCog } from 'react-icons/bi';
 import { FiUsers, FiLogOut } from 'react-icons/fi';
 import Logo from '@/components/Logo/Logo';
+import { useAuth } from '@/contexts/AuthContext';
+import useUser from '@/hooks/useUser';
+import { useRouter } from 'next/router';
 
 const links = [
   {
@@ -40,10 +43,16 @@ const links = [
 
 function DashboardLayout({ children }: { children: ReactNode }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const { isAdmin } = useUser();
+  const router = useRouter();
 
   const handleNavToggle = () => {
     setIsNavOpen((prevIsNavOpen) => !prevIsNavOpen);
   };
+
+  if (!isAdmin) {
+    return <p>You are not a admin</p>;
+  }
 
   return (
     <main className="container flex flex-col gap-5 items-start py-2 lg:flex-row">

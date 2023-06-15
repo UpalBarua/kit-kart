@@ -29,10 +29,9 @@ function CartItem({
   useEffect(() => {
     const updateQuantity = async () => {
       try {
-        const { data } = await axios.patch(
+        await axios.patch(
           `/cart?email=${'upal@mail.com'}&id=${cartId}&quantity=${productQuantity}`
         );
-        console.log(data);
       } catch (error: any) {
         console.log(error.message);
       }

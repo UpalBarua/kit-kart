@@ -18,6 +18,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Review } from '@/types/review';
 import { toast } from 'react-hot-toast';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import useUser from '@/hooks/useUser';
 
 export const getStaticPaths = async () => {
   try {
@@ -73,6 +77,8 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
   const [productQuantity, setProductQuantity] = useState(1);
   const [isReviewEditing, setIsReviewEditing] = useState(false);
   const { addToCart } = useCart();
+  const router = useRouter();
+  const { _id: userId } = useUser;
 
   const handleReviewEditing = () => {
     setIsReviewEditing((prevIsReviewEditing) => !prevIsReviewEditing);
@@ -92,6 +98,10 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
   } = productDetails;
 
   const handleAddToCart = () => {
+    if (!userId) {
+      return toast.error('You need to be logged in');
+    }
+
     addToCart({ productId: _id, productQuantity });
   };
 
@@ -107,6 +117,29 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
       throw new Error('Failed to fetch reviews');
     }
   });
+
+  const handleCheckout = async () => {
+    if (!userId) {
+      return toast.error('You need to be logged in');
+    }
+
+    try {
+      const { data } = await axios.post('/payment/create-checkout-session', {
+        products: [{ product: productDetails, quantity: productQuantity }],
+      });
+
+      if (data?.url) {
+        await axios.post('/orders', {
+          user: userId,
+          orders: [{ product: productDetails, quantity: productQuantity }],
+        });
+
+        router.push(data.url);
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <PhotoProvider>
@@ -130,7 +163,8 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
             <div className="flex gap-2 items-center text-lg text-gray-500">
               <div className="flex items-center">
                 <AiFillStar className="text-lg text-yellow-500 me-1" />
-                <span className="font-bold">{ratingAvg}</span> Ratings
+                <span className="font-bold">{ratingAvg}</span>
+                &nbsp;Ratings
               </div>
               <RxDotFilled className="text-sm" />
               <div>
@@ -163,12 +197,14 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
               />
             </div>
             <div className="flex gap-2 pb-6">
-              <button className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-white bg-green-500 rounded-lg border-2 border-green-500 shadow">
+              <button
+                className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-white bg-green-500 rounded-lg border-2 border-green-500 shadow"
+                onClick={handleCheckout}>
                 <ImPriceTag className="text-xl" />
                 <span>Buy Now</span>
               </button>
               <button
-                className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-green-500 rounded-lg border-2 border-green-500 shadow"
+                className="flex flex-1 gap-2 justify-center items-center px-6 py-3 font-semibold text-green-500 bg-white rounded-lg border-2 border-green-500 shadow"
                 onClick={handleAddToCart}>
                 <BsCart3 className="text-xl" />
                 <span>Add to Cart</span>
@@ -198,13 +234,15 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
           <div className="pb-5 lg:col-span-3">
             <div className="flex justify-between items-center pb-6 text-xl">
               <h2 className="font-bold capitalize">Top Reviews</h2>
-              <button
-                className={`p-1 text-2xl text-white rounded-full ${
-                  isReviewEditing ? 'bg-red-500' : 'bg-green-500'
-                }`}
-                onClick={handleReviewEditing}>
-                {isReviewEditing ? <MdOutlineClose /> : <MdAdd />}
-              </button>
+              {userId ? (
+                <button
+                  className={`p-1 text-2xl text-white rounded-full ${
+                    isReviewEditing ? 'bg-red-500' : 'bg-green-500'
+                  }`}
+                  onClick={handleReviewEditing}>
+                  {isReviewEditing ? <MdOutlineClose /> : <MdAdd />}
+                </button>
+              ) : null}
             </div>
             <ReviewForm
               isReviewEditing={isReviewEditing}
