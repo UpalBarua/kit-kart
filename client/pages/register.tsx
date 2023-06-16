@@ -79,7 +79,7 @@ const Register = () => {
 
   useEffect(() => {
     if (!userIsLoading && _id) {
-      push('/404');
+      push('/');
     }
   }, [userIsLoading, _id, push]);
 

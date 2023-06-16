@@ -10,9 +10,10 @@ import animationData from '@/public/assets/login5.json';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import useUser from '@/hooks/useUser';
+import axios from '@/api/axios';
 
 const Login = () => {
-  const { logIn, user } = useAuth();
+  const { logIn, user, googleLogin } = useAuth();
   const [loginError, setRegisterError] = useState('');
 
   const {
@@ -46,9 +47,28 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      const { user } = await googleLogin();
+
+      if (Object.keys(user).length > 0) {
+        const { data } = await axios.post('/user', {
+          userName: user.displayName,
+          email: user.email,
+        });
+
+        if (data?.createdAt) {
+          push('/');
+        }
+      }
+    } catch (error: any) {
+      setRegisterError(error.message);
+    }
+  };
+
   useEffect(() => {
     if (!userIsLoading && _id) {
-      push('/404');
+      push('/');
     }
   }, [userIsLoading, _id, push]);
 
@@ -108,7 +128,8 @@ const Login = () => {
             </button>
             <button
               type="button"
-              className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400">
+              className="flex gap-2 justify-center items-center py-4 text-lg font-semibold text-gray-500 capitalize rounded-md border-2 border-gray-400"
+              onClick={handleGoogleLogin}>
               <FcGoogle className="text-xl" />
               <span>Register with Google</span>
             </button>

@@ -5,6 +5,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/api/axios';
 import { useRouter } from 'next/router';
 import { AiOutlineUser } from 'react-icons/ai';
+import { format } from 'date-fns';
+import { create } from 'domain';
+import { toast } from 'react-hot-toast';
 
 function Profile() {
   const {
@@ -32,15 +35,16 @@ function Profile() {
 
   const { mutate: cancelOrder } = useMutation(
     async (id: string) => {
-      try {
-        const { data } = await axios.delete(`/orders/${id}`);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
+      return await axios.delete(`/orders/${id}`);
     },
     {
-      onSuccess: () => queryClient.invalidateQueries(['profileOrders']),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['profileOrders']);
+        toast.success('Order canceled');
+      },
+      onError: (error: any) => {
+        toast.error(error.message);
+      },
     }
   );
 
@@ -72,7 +76,7 @@ function Profile() {
       </div>
 
       {profileOrders.length > 0 ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col p-2 my-6 bg-white rounded-md shadow">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
               <div className="overflow-hidden">
@@ -92,34 +96,41 @@ function Profile() {
                       <th
                         scope="col"
                         className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
                         Cancel
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {profileOrders?.map(
-                      ({ _id, user, quantity, isShipped, createdAt }) => (
-                        <tr
-                          key={_id}
-                          className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                          <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                            {profileOrders[0].orders
-                              .map(({ product }) => product?.title)
-                              .join(', ')}
-                          </td>
-                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                            {profileOrders[0].orders
-                              .map(({ quantity }) => quantity)
-                              .join(', ')}
-                          </td>
-                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                            <button onClick={() => cancelOrder(_id)}>
-                              Cancel
-                            </button>
-                          </td>
-                        </tr>
-                      )
-                    )}
+                    {profileOrders?.map(({ _id, orders, createdAt }) => (
+                      <tr
+                        key={_id}
+                        className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                          {orders
+                            .map(({ product }) => product?.title)
+                            .join(', ')}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                          {orders.map(({ quantity }) => quantity).join(', ')}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                          {createdAt &&
+                            format(new Date(createdAt), 'MMMM d, yyyy')}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                          <button
+                            onClick={() => cancelOrder(_id)}
+                            className="px-4 py-2 text-sm font-semibold text-red-500 bg-red-100 rounded-md">
+                            Cancel
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

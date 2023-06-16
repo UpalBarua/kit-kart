@@ -8,11 +8,10 @@ import { Product } from '@/types/product';
 import { MouseEvent, useEffect } from 'react';
 import useWishlist from '@/hooks/useWishlist';
 import { useState } from 'react';
-import axios from '@/api/axios';
 
 const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
-  const { addToCart, cart } = useCart();
-  const { addToWishlist, wishlist, getIfWishListed } = useWishlist();
+  const { addToCart } = useCart()!;
+  const { addToWishlist, wishlist } = useWishlist();
   const [isWishListed, setIsWishListed] = useState(false);
 
   useEffect(() => {
@@ -31,9 +30,8 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
     setIsWishListed((prevIsWishListed) => !prevIsWishListed);
     return addToWishlist(_id);
   };
-  // TODO - solve this i.bb.co problem
 
-  if (imageUrl === 'i.ibb.co') return <></>;
+  if (imageUrl === 'i.ibb.co') return null;
 
   return (
     <li>

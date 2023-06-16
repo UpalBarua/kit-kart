@@ -7,14 +7,24 @@ import useUser from '@/hooks/useUser';
 
 interface CartContextProps {
   cartProducts: CartProduct[];
-  addToCart: (productId: string, productQuantity: number) => void;
+  addToCart: ({
+    productId,
+    productQuantity,
+  }: {
+    productId: string;
+    productQuantity: number;
+  }) => void;
+  removeFromCart: (productId: string) => void;
 }
 
 const CartContext = createContext<CartContextProps | null>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
-  const { email } = useUser();
+
+  const {
+    userData: { email },
+  } = useUser();
 
   const { data: cartProducts = [] } = useQuery({
     queryKey: ['cartProducts', email],

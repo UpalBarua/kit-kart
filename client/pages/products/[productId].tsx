@@ -78,7 +78,9 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
   const [isReviewEditing, setIsReviewEditing] = useState(false);
   const { addToCart } = useCart();
   const router = useRouter();
-  const { _id: userId } = useUser;
+  const {
+    userData: { _id: userId },
+  } = useUser();
 
   const handleReviewEditing = () => {
     setIsReviewEditing((prevIsReviewEditing) => !prevIsReviewEditing);
@@ -95,7 +97,7 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
     description,
     price,
     stock,
-  } = productDetails;
+  } = productDetails || {};
 
   const handleAddToCart = () => {
     if (!userId) {
@@ -105,11 +107,7 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
     addToCart({ productId: _id, productQuantity });
   };
 
-  const {
-    data: reviews = [],
-    isLoading,
-    isError,
-  } = useQuery(['reviews', _id], async () => {
+  const { data: reviews = [] } = useQuery(['reviews', _id], async () => {
     try {
       const { data } = await axios.get(`/reviews?productId=${_id}`);
       return data;

@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import Logo from '../Logo/Logo';
+import useUser from '@/hooks/useUser';
 import {
   AiOutlineShoppingCart,
   AiOutlineMenu,
@@ -9,9 +10,6 @@ import {
   AiOutlineHeart,
   AiOutlineUser,
 } from 'react-icons/ai';
-import { useAuth } from '@/contexts/AuthContext';
-import Logo from '../Logo/Logo';
-import useUser from '@/hooks/useUser';
 
 function Navbar() {
   const {

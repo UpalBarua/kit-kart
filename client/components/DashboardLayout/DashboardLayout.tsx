@@ -1,15 +1,9 @@
-import { ReactNode, useReducer, useState } from 'react';
-import {
-  AiOutlineHome,
-  AiOutlineShoppingCart,
-  AiOutlineMenu,
-} from 'react-icons/ai';
+import { ReactNode, useState } from 'react';
+import { AiOutlineHome, AiOutlineMenu } from 'react-icons/ai';
 import Link from 'next/link';
 import { BsArchive, BsTruck } from 'react-icons/bs';
-import { BiCog } from 'react-icons/bi';
 import { FiUsers, FiLogOut } from 'react-icons/fi';
 import Logo from '@/components/Logo/Logo';
-import { useAuth } from '@/contexts/AuthContext';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/router';
 
@@ -43,17 +37,18 @@ const links = [
 
 function DashboardLayout({ children }: { children: ReactNode }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const { push } = useRouter();
+
   const {
     userData: { isAdmin },
   } = useUser();
-  const router = useRouter();
 
   const handleNavToggle = () => {
     setIsNavOpen((prevIsNavOpen) => !prevIsNavOpen);
   };
 
   if (!isAdmin) {
-    return <p>You are not a admin</p>;
+    push('/');
   }
 
   return (

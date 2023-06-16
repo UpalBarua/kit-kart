@@ -1,9 +1,4 @@
-import {
-  AiOutlineUser,
-  AiFillLike,
-  AiFillStar,
-  AiOutlineDelete,
-} from 'react-icons/ai';
+import { AiOutlineUser, AiFillStar, AiOutlineDelete } from 'react-icons/ai';
 import { Review } from '@/types/review';
 import { format } from 'date-fns';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -19,15 +14,16 @@ const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
 
   const { mutate: handleReviewDelete } = useMutation(
     async () => {
-      try {
-        const { data } = await axios.delete(`/reviews?productId=${_id}`);
-        toast.success('Review deleted!');
-      } catch (error: any) {
-        console.log(error.message);
-      }
+      await axios.delete(`/reviews?productId=${_id}`);
     },
     {
-      onSuccess: () => queryClient.invalidateQueries(['reviews']),
+      onSuccess: () => {
+        toast.success('Review deleted');
+        queryClient.invalidateQueries(['reviews']);
+      },
+      onError: () => {
+        toast.error('Failed to delete review');
+      },
     }
   );
 
@@ -55,7 +51,7 @@ const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
         {email === user.email && (
           <button
             className="flex gap-1 items-center text-lg"
-            onClick={handleReviewDelete}>
+            onClick={() => handleReviewDelete()}>
             <AiOutlineDelete />
           </button>
         )}

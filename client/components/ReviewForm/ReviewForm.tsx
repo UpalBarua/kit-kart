@@ -35,20 +35,19 @@ function ReviewForm({
         comment: reviewComment,
       };
 
-      try {
-        const { data } = await axios.post('/reviews', newReview);
-
-        if (data?._id) {
-          toast.success('Review added');
-          setReviewComment('');
-          setIsReviewEditing(false);
-        }
-      } catch (error) {
-        throw new Error('Failed to submit review');
-      }
+      await axios.post('/reviews', newReview);
     },
     {
-      onSuccess: () => queryClient.invalidateQueries(['reviews']),
+      onSuccess: () => {
+        toast.success('Review added');
+        setReviewComment('');
+        setIsReviewEditing(false);
+        queryClient.invalidateQueries(['reviews']);
+      },
+      onError: (error: any) => {
+        toast.error('Something went wrong');
+        console.log(error);
+      },
     }
   );
 
