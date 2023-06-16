@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '@/contexts/AuthContext';
@@ -9,10 +9,16 @@ import Lottie from 'lottie-react';
 import animationData from '@/public/assets/login5.json';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import useUser from '@/hooks/useUser';
 
 const Login = () => {
   const { logIn, user } = useAuth();
   const [loginError, setRegisterError] = useState('');
+
+  const {
+    userData: { _id },
+    userIsLoading,
+  } = useUser();
 
   const { push } = useRouter();
 
@@ -40,9 +46,11 @@ const Login = () => {
     }
   };
 
-  if (user?.uid) {
-    return push('/404');
-  }
+  useEffect(() => {
+    if (!userIsLoading && _id) {
+      push('/404');
+    }
+  }, [userIsLoading, _id, push]);
 
   return (
     <Layout>

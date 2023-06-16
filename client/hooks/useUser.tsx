@@ -5,7 +5,7 @@ import axios from '@/api/axios';
 function useUser() {
   const { user } = useAuth();
 
-  const { data: userData = {} } = useQuery(
+  const { data: userData = {}, isLoading: userIsLoading } = useQuery(
     ['userData', user?.email],
     async () => {
       try {
@@ -20,7 +20,7 @@ function useUser() {
     }
   );
 
-  return userData;
+  return { userData, userIsLoading };
 }
 
 export default useUser;

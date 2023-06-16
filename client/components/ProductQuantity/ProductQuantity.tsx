@@ -25,7 +25,7 @@ function ProductQuantity({
   };
 
   return (
-    <div className="flex gap-1 items-center px-2 py-1 bg-white rounded-lg border-2 border-gray-200">
+    <div className="flex gap-1 justify-center px-2 py-1 w-max bg-white rounded-lg border-2 border-gray-200">
       <button
         className="p-1 text-xl rounded-full hover:shadow hover:bg-gray-100 outline-0"
         onClick={() => handleProductQuantity('dec')}>

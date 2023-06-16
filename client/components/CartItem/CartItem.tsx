@@ -6,6 +6,7 @@ import { TbCurrencyTaka } from 'react-icons/tb';
 import { Product } from '@/types/product';
 import { useState, useEffect } from 'react';
 import axios from '@/api/axios';
+import useUser from '@/hooks/useUser';
 
 interface CartItemProps extends Product {
   cartId: string;
@@ -25,12 +26,15 @@ function CartItem({
   removeFromCart,
 }: CartItemProps) {
   const [productQuantity, setProductQuantity] = useState(quantity);
+  const {
+    userData: { email },
+  } = useUser();
 
   useEffect(() => {
     const updateQuantity = async () => {
       try {
         await axios.patch(
-          `/cart?email=${'upal@mail.com'}&id=${cartId}&quantity=${productQuantity}`
+          `/cart?email=${email}&id=${cartId}&quantity=${productQuantity}`
         );
       } catch (error: any) {
         console.log(error.message);
@@ -38,18 +42,18 @@ function CartItem({
     };
 
     updateQuantity();
-  }, [productQuantity, cartId]);
+  }, [productQuantity, cartId, email]);
 
   return (
     <li className="flex gap-5 items-center">
       <Image
-        className="bg-gray-200 rounded-md"
+        className="object-cover object-center w-28 h-full bg-gray-200 rounded-md md:w-48"
         src={imageUrl}
         alt={title}
         height={200}
         width={200}
       />
-      <div>
+      <div className="flex flex-col gap-2">
         <h3 className="text-xl font-bold">{title}</h3>
         <div className="flex gap-2 items-center text-gray-500">
           <div>
@@ -66,18 +70,18 @@ function CartItem({
           productQuantity={productQuantity}
           setProductQuantity={setProductQuantity}
         />
-      </div>
-      <div>
-        <p className="flex items-center text-3xl font-semibold">
-          <TbCurrencyTaka />
-          <span>{(+price * quantity).toLocaleString()}</span>
-        </p>
-        <button
-          className="flex gap-1 items-center px-4 py-2 text-red-500 bg-red-100 rounded-md"
-          onClick={() => removeFromCart(_id)}>
-          <AiOutlineDelete />
-          <span>Remove</span>
-        </button>
+        <div className="flex justify-between pt-4">
+          <p className="flex items-center text-3xl font-semibold">
+            <TbCurrencyTaka />
+            <span>{(+price * quantity).toLocaleString()}</span>
+          </p>
+          <button
+            className="flex gap-1 items-center px-4 py-2 text-red-500 bg-red-100 rounded-md"
+            onClick={() => removeFromCart(_id)}>
+            <AiOutlineDelete />
+            <span>Remove</span>
+          </button>
+        </div>
       </div>
     </li>
   );

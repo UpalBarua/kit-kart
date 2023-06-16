@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
@@ -9,12 +9,17 @@ import { toast } from 'react-hot-toast';
 import Lottie from 'lottie-react';
 import animationData from '@/public/assets/register3.json';
 import { useRouter } from 'next/router';
+import useUser from '@/hooks/useUser';
 
 const Register = () => {
   const { push } = useRouter();
-
   const { registerUser, googleLogin } = useAuth();
   const [registerError, setRegisterError] = useState('');
+
+  const {
+    userData: { _id },
+    userIsLoading,
+  } = useUser();
 
   const {
     register,
@@ -43,7 +48,7 @@ const Register = () => {
         });
 
         if (data?.createdAt) {
-          push('/')
+          push('/');
         }
       } catch (error) {
         console.log(error);
@@ -71,6 +76,12 @@ const Register = () => {
       setRegisterError(error.message);
     }
   };
+
+  useEffect(() => {
+    if (!userIsLoading && _id) {
+      push('/404');
+    }
+  }, [userIsLoading, _id, push]);
 
   return (
     <Layout>

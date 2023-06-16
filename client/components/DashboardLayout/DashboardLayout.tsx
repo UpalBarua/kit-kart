@@ -43,7 +43,9 @@ const links = [
 
 function DashboardLayout({ children }: { children: ReactNode }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const { isAdmin } = useUser();
+  const {
+    userData: { isAdmin },
+  } = useUser();
   const router = useRouter();
 
   const handleNavToggle = () => {

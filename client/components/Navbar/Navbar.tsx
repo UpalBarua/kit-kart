@@ -14,7 +14,9 @@ import Logo from '../Logo/Logo';
 import useUser from '@/hooks/useUser';
 
 function Navbar() {
-  const { _id, email, userName } = useUser();
+  const {
+    userData: { _id, email, userName },
+  } = useUser();
 
   return (
     <header className="sticky top-0 z-30 py-3 bg-green-50">

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CartProduct } from '@/types/product';
 import axios from '@/api/axios';
 import { toast } from 'react-hot-toast';
+import useUser from '@/hooks/useUser';
 
 interface CartContextProps {
   cartProducts: CartProduct[];
@@ -13,16 +14,22 @@ const CartContext = createContext<CartContextProps | null>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
-  const email = 'upal@mail.com';
+  const { email } = useUser();
 
   const { data: cartProducts = [] } = useQuery({
     queryKey: ['cartProducts', email],
     queryFn: async () => {
       try {
         const { data } = await axios.get(`/cart?email=${email}`);
-        return data?.products;
+
+        if (data?.products) {
+          return data?.products;
+        }
+
+        return [];
       } catch (error) {
         console.log(error);
+        return [];
       }
     },
     enabled: !!email,

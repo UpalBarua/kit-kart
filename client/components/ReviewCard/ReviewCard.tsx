@@ -13,7 +13,9 @@ import useUser from '@/hooks/useUser';
 
 const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
   const queryClient = useQueryClient();
-  const { email } = useUser();
+  const {
+    userData: { email },
+  } = useUser();
 
   const { mutate: handleReviewDelete } = useMutation(
     async () => {
