@@ -1,26 +1,24 @@
 import DashboardLayout from '@/components/DashboardLayout/DashboardLayout';
 import Link from 'next/link';
 import axios from '@/api/axios';
-import {
-  useQuery,
-  useMutation,
-  QueryClient,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import DashboardProductTable from '@/components/DashboardProductTable/DashboardProductTable';
+import { toast } from 'react-hot-toast';
+import { Ring } from '@uiball/loaders';
 
 function Products() {
   const queryClient = useQueryClient();
 
-  const { data: dashboardProducts = [] } = useQuery(
+  const { data: dashboardProducts = [], isLoading } = useQuery(
     ['dashboardProducts'],
     async () => {
-      try {
-        const { data } = await axios.get('/products');
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
+      const { data } = await axios.get('/products');
+      return data;
+    },
+    {
+      onSuccess: (error: any) => {
+        toast.error(error.message);
+      },
     }
   );
 
@@ -40,15 +38,24 @@ function Products() {
 
   return (
     <DashboardLayout>
-      <Link
-        className="px-4 py-2 font-semibold text-white bg-green-500 rounded-md"
-        href={'/dashboard/products/new'}>
-        Add new product
-      </Link>
-      <DashboardProductTable
-        products={dashboardProducts}
-        deleteProduct={deleteProduct}
-      />
+      <div className="flex justify-between items-center">
+        <h2 className="pt-3 text-2xl font-bold text-gray-500">Products</h2>
+        <Link
+          className="px-5 py-3 font-semibold text-white bg-green-500 rounded-md"
+          href={'/dashboard/products/new'}>
+          Add new product
+        </Link>
+      </div>
+      {isLoading ? (
+        <Ring size={50} lineWeight={5} speed={2} color="black" />
+      ) : dashboardProducts.length ? (
+        <DashboardProductTable
+          products={dashboardProducts}
+          deleteProduct={deleteProduct}
+        />
+      ) : (
+        <p>Failed To Load Products</p>
+      )}
     </DashboardLayout>
   );
 }

@@ -9,6 +9,7 @@ import {
   AiOutlineNotification,
   AiOutlineHeart,
   AiOutlineUser,
+  AiOutlineSearch,
 } from 'react-icons/ai';
 
 function Navbar() {
@@ -33,16 +34,8 @@ function Navbar() {
             <Link
               className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-green-100"
               href="/products">
-              <AiOutlineFire className="text-xl" />
-              <span>Hot Deals</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="hidden gap-1 items-center px-3 py-2 rounded-md md:flex hover:bg-green-100"
-              href="/">
-              <AiOutlineNotification className="text-xl" />
-              <span>New Products</span>
+              <AiOutlineSearch className="text-xl" />
+              <span>Search</span>
             </Link>
           </li>
           {_id ? (

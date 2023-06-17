@@ -3,20 +3,22 @@ import { useQuery } from '@tanstack/react-query';
 import axios from '@/api/axios';
 
 function useUser() {
-  const { user } = useAuth();
+  const {
+    user: { email },
+  } = useAuth()!;
 
   const { data: userData = {}, isLoading: userIsLoading } = useQuery(
-    ['userData', user?.email],
+    ['userData', email],
     async () => {
       try {
-        const { data } = await axios.get(`/user/${user?.email}`);
+        const { data } = await axios.get(`/user/${email}`);
         return data;
       } catch (error: any) {
         throw new Error('Failed to fetch user data');
       }
     },
     {
-      enabled: !!user?.email,
+      enabled: !!email,
     }
   );
 

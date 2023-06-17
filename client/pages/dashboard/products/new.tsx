@@ -42,13 +42,15 @@ function New() {
 
   return (
     <DashboardLayout>
-      <h2 className="pb-2 text-2xl font-bold">Add New Product</h2>
+      <h2 className="pb-5 text-2xl font-bold text-gray-600">Add New Product</h2>
       {/* TODO : add image upload */}
-      <form className={'grid gap-2'} onSubmit={handleSubmit(handleAddProduct)}>
+      <form
+        className={'grid gap-4 lg:gap-6 lg:pe-96'}
+        onSubmit={handleSubmit(handleAddProduct)}>
         <fieldset className="grid gap-2">
           <label>Product Title</label>
           <input
-            className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
+            className="py-3 rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
             {...register('title', {
               required: {
                 value: true,
@@ -61,7 +63,7 @@ function New() {
         <fieldset className="grid gap-2">
           <label>Price (BDT)</label>
           <input
-            className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
+            className="py-3 rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
             {...register('price', {
               required: {
                 value: true,
@@ -74,7 +76,7 @@ function New() {
         <fieldset className="grid gap-2">
           <label>Stock Quantity</label>
           <input
-            className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
+            className="py-3 rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
             {...register('stock', {
               required: {
                 value: true,
@@ -87,7 +89,7 @@ function New() {
         <fieldset className="grid gap-2">
           <label>Category</label>
           <input
-            className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
+            className="py-3 rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
             {...register('category', {
               required: {
                 value: true,
@@ -106,7 +108,7 @@ function New() {
                 message: 'Description is required',
               },
             })}
-            className="rounded-md border-gray-400 shadow-sm focus:ring-0 resize-border focus:r5ng-green-400"
+            className="py-3 rounded-md border-gray-400 shadow-sm focus:ring-0 resize-border focus:r5ng-green-400"
           />
         </fieldset>
         {/* <fieldset className="grid gap-2">

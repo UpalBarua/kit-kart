@@ -49,6 +49,16 @@ function DashboardProductTable({
                     className="px-6 py-3 text-xs font-medium text-right text-gray-500 uppercase">
                     Seller
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-right text-gray-500 uppercase">
+                    Delete
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-right text-gray-500 uppercase">
+                    Edit
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -93,7 +103,7 @@ function DashboardProductTable({
                       <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                         <Link
                           href={`/dashboard/products/edit?productId=${_id}`}
-                          className="flex gap-1 items-center px-4 py-2 text-sm text-center text-green-500 bg-green-100 rounded-md shadow-sm">
+                          className="flex gap-1 justify-center items-center px-4 py-2 text-sm text-center text-green-500 bg-green-100 rounded-md shadow-sm">
                           Edit
                         </Link>
                       </td>

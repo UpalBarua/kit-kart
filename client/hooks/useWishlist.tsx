@@ -6,13 +6,16 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const useWishlist = () => {
   const queryClient = useQueryClient();
-  const { user } = useAuth();
 
-  const { data: wishlist = [] } = useQuery(
-    ['wishlist', user.email],
+  const {
+    userData: { email },
+  } = useUser();
+
+  const { data: wishlist = [], isLoading: isLoading } = useQuery(
+    ['wishlist', email],
     async () => {
       try {
-        const { data } = await axios.get(`/wishlist?email=${user.email}`);
+        const { data } = await axios.get(`/wishlist?email=${email}`);
         return data;
       } catch (error) {
         console.log(error);
@@ -20,18 +23,18 @@ const useWishlist = () => {
       }
     },
     {
-      enabled: !!user.email,
+      enabled: !!email,
     }
   );
 
   const { mutate: addToWishlist } = useMutation(
     async (productId: string) => {
-      if (!user?.email) {
+      if (!email) {
         return toast.error('Must be logged in');
       }
 
       try {
-        await axios.put(`/wishlist?email=${user.email}&productId=${productId}`);
+        await axios.put(`/wishlist?email=${email}&productId=${productId}`);
       } catch (error) {
         console.log(error);
       }
@@ -44,6 +47,7 @@ const useWishlist = () => {
   return {
     wishlist,
     addToWishlist,
+    isLoading,
   };
 };
 

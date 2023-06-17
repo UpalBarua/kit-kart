@@ -9,11 +9,13 @@ interface LayoutProps {
 
 function Layout({ children, className = '' }: LayoutProps) {
   return (
-    <main className="container">
-      <Navbar />
-      <section className={className}>{children}</section>
+    <>
+      <main className="container">
+        <Navbar />
+        <section className={className}>{children}</section>
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
 

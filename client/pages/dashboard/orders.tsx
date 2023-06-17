@@ -1,11 +1,13 @@
 import DashboardLayout from '@/components/DashboardLayout/DashboardLayout';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import axios from '@/api/axios';
+import { Ring } from '@uiball/loaders';
+import { format } from 'date-fns';
 
 function Orders() {
   const queryClient = useQueryClient();
 
-  const { data: dashboardOrders = [] } = useQuery(
+  const { data: dashboardOrders = [], isLoading } = useQuery(
     ['dashboardOrders'],
     async () => {
       try {
@@ -49,80 +51,92 @@ function Orders() {
 
   return (
     <DashboardLayout>
-      <h2 className="pb-2 text-2xl font-bold">Orders</h2>
-      <div className="flex flex-col">
-        <div className="-m-1.5 overflow-x-auto">
-          <div className="p-1.5 min-w-full inline-block align-middle">
-            <div className="overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                      Product
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                      User
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                      Quantity
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                      Delete
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
-                      Delete
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {dashboardOrders.map(({ _id, user, quantity, isShipped }) => (
-                    <tr
-                      key={_id}
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
-                        {dashboardOrders[0].orders
-                          .map(({ product }) => product?.title)
-                          .join(', ')}
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                        {user.userName}
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                        {dashboardOrders[0].orders
-                          .map(({ quantity }) => quantity)
-                          .join(', ')}
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                        <button onClick={() => deleteOrder(_id)}>delete</button>
-                      </td>
-                      {!isShipped && (
-                        <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                          <button
-                            onClick={() =>
-                              markAsShipped({ id: _id, isShipped: true })
-                            }>
-                            Ship Product
-                          </button>
-                        </td>
-                      )}
+      <h2 className="pt-3 text-2xl font-bold text-gray-500">Orders</h2>
+      {isLoading ? (
+        <Ring size={50} lineWeight={5} speed={2} color="black" />
+      ) : dashboardOrders.length ? (
+        <div className="flex flex-col p-2 my-6 bg-white rounded-md shadow">
+          <div className="-m-1.5 overflow-x-auto">
+            <div className="p-1.5 min-w-full inline-block align-middle">
+              <div className="overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        Product
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        User
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        Quantity
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        Delete
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        Delete
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {dashboardOrders.map(
+                      ({ _id, user, orders, isShipped, createdAt }) => (
+                        <tr
+                          key={_id}
+                          className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">
+                            {orders
+                              .map(({ product }) => product?.title)
+                              .join(', ')}
+                          </td>
+                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                            {user.userName}
+                          </td>
+                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                            {orders.map(({ quantity }) => quantity).join(', ')}
+                          </td>
+                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                            {createdAt &&
+                              format(new Date(createdAt), 'MMMM d, yyyy')}
+                          </td>
+                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                            <button onClick={() => deleteOrder(_id)}>
+                              delete
+                            </button>
+                          </td>
+                          {!isShipped && (
+                            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
+                              <button
+                                onClick={() =>
+                                  markAsShipped({ id: _id, isShipped: true })
+                                }>
+                                Ship Product
+                              </button>
+                            </td>
+                          )}
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <p>Failed To Load Products</p>
+      )}
     </DashboardLayout>
   );
 }

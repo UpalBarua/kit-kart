@@ -6,6 +6,7 @@ import { Product } from '@/types/product';
 import { ChangeEvent, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { BiFilterAlt } from 'react-icons/bi';
+import { Ring } from '@uiball/loaders';
 
 const categories = [
   'Fresh%20Produce',
@@ -43,33 +44,32 @@ function Products() {
     });
   };
 
-  const fetchProducts = async () => {
-    try {
+  const { data: products = [], isLoading } = useQuery(
+    ['products', searchString, selectedCategories, productSort],
+    async () => {
       const { data } = await axios.get(
         `/products?search=${searchString}&categories=${selectedCategories.join(
           ','
         )}&sort=${productSort}`
       );
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const {
-    data: products = [],
-    isLoading,
-    isError,
-  } = useQuery(
-    ['products', searchString, selectedCategories, productSort],
-    fetchProducts
+      return data;
+    },
+    {
+      onError: (error) => {
+        console.log(error);
+      },
+    }
   );
 
   return (
     <Layout className="flex flex-col gap-5 lg:gap-8 lg:flex-row">
-      <div>
+      <div className="p-6 bg-white rounded-md shadow-md h-max">
+        <h2 className="pb-3 text-xl font-bold text-gray-600">
+          Filter Products
+        </h2>
         <div className="flex gap-2 items-stretch">
-          <div className="flex flex-1 gap-2 items-center px-3 py-1 bg-white rounded-lg border-2 border-gray-200">
+          <div className="flex flex-1 gap-2 items-center px-3 py-1 mb-8 bg-white rounded-lg border-2 border-gray-200">
             <BsSearch className="text-xl text-gray-500" />
             <input
               className="w-48 border-0 focus:ring-0"
@@ -87,7 +87,7 @@ function Products() {
           </button>
         </div>
         <div className={`${isFilterOpen ? 'block' : 'hidden'} lg:block`}>
-          <h3 className="pb-1 text-xl font-bold text-gray-600">Categories</h3>
+          <h2 className="pb-3 text-xl font-bold text-gray-600">Categories</h2>
           {categories.map((category: string, i: number) => (
             <label key={i} className="flex gap-2 items-center pb-1 w-max">
               <input
@@ -103,17 +103,12 @@ function Products() {
         </div>
       </div>
       <div>
-        {isLoading && <p>Products loading...</p>}
-        {isError && <p>Failed to load products!</p>}
         <div className="flex justify-between items-center px-2 py-3">
-          {searchString ? (
-            <p className="text-xl font-bold text-gray-700">
-              Showing <span className="text-green-500">{products.length}</span>{' '}
-              search results
-            </p>
-          ) : (
-            <p />
-          )}
+          <p className="text-2xl font-bold text-gray-600 pe-96">
+            Showing{' '}
+            <span className="text-green-500">{products.length || '0'}</span>{' '}
+            Products
+          </p>
           <form>
             <label className="me-3" htmlFor="cars">
               Sort by
@@ -132,9 +127,17 @@ function Products() {
           </form>
         </div>
         <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-4">
-          {products?.map((product: Product) => (
-            <ProductCard key={product._id} {...product} />
-          ))}
+          {isLoading ? (
+            <Ring size={50} lineWeight={5} speed={2} color="black" />
+          ) : products.length ? (
+            products?.map((product: Product) => (
+              <ProductCard key={product._id} {...product} />
+            ))
+          ) : (
+            <p className="text-xl font-bold text-center text-gray-300">
+              No Products Found
+            </p>
+          )}
         </ul>
       </div>
     </Layout>

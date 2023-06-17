@@ -150,7 +150,7 @@ function ProductDetails({ productDetails }: { productDetails: Product }) {
                 alt={title}
                 height={500}
                 width={500}
-                className="w-full h-[20rem] lg:h-[25rem] object-cover object-center rounded-xl shadow-lg"
+                className="w-full h-[20rem] lg:h-[25rem] object-cover object-center rounded-xl shadow-lg bg-white"
               />
             </PhotoView>
           </div>

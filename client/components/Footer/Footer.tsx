@@ -2,8 +2,8 @@ import Logo from '../Logo/Logo';
 
 function Footer() {
   return (
-    <footer className="mt-14 bg-green-50 dark:bg-gray-800">
-      <div className="p-4 py-6 mx-auto w-full max-w-screen-xl lg:py-8">
+    <footer className="container mt-14 bg-white dark:bg-gray-800">
+      <div className="p-4 py-6 mx-auto w-full lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <Logo />

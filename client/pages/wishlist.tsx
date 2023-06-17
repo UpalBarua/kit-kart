@@ -1,33 +1,39 @@
 import { useEffect } from 'react';
 import Layout from '@/components/Layout/Layout';
-import { useQuery } from '@tanstack/react-query';
-import axios from '@/api/axios';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { Product } from '@/types/product';
-import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import useUser from '@/hooks/useUser';
 import useWishlist from '@/hooks/useWishlist';
+import { Ring } from '@uiball/loaders';
 
 const Wishlist = () => {
-  const {
-    userData: { _id, email },
-  } = useUser();
   const { push } = useRouter();
-  const { wishlist } = useWishlist();
+  const { wishlist, isLoading } = useWishlist();
+
+  const {
+    userData: { _id },
+    userIsLoading,
+  } = useUser();
+
+  useEffect(() => {
+    if (!userIsLoading && !_id) {
+      push('/');
+    }
+  }, [_id, userIsLoading, push]);
 
   return (
     <Layout>
       <h2 className="pb-3 text-2xl font-bold">Your Wishlist</h2>
       <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-4">
-        {wishlist.products?.length > 0 ? (
-          wishlist?.products?.map((product: Product) => (
+        {isLoading ? (
+          <Ring size={50} lineWeight={5} speed={2} color="black" />
+        ) : wishlist.products?.length ? (
+          wishlist.products.map((product: Product) => (
             <ProductCard key={product._id} {...product} />
           ))
         ) : (
-          <p className="text-lg text-gray-500">
-            There are no products in your wishlist
-          </p>
+          <p>No Products Found</p>
         )}
       </ul>
     </Layout>

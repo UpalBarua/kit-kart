@@ -15,6 +15,7 @@ interface CartContextProps {
     productQuantity: number;
   }) => void;
   removeFromCart: (productId: string) => void;
+  isLoading: boolean;
 }
 
 const CartContext = createContext<CartContextProps | null>(null);
@@ -26,7 +27,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     userData: { email },
   } = useUser();
 
-  const { data: cartProducts = [] } = useQuery({
+  const { data: cartProducts = [], isLoading } = useQuery({
     queryKey: ['cartProducts', email],
     queryFn: async () => {
       try {
@@ -119,6 +120,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     cartProducts,
     addToCart,
     removeFromCart,
+    isLoading,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -3,12 +3,10 @@ import ProductCard from '@/components/ProductCard/ProductCard';
 import { Product } from '@/types/product';
 import axios from '@/api/axios';
 import React from 'react';
-import Image from 'next/image';
 import CategoryCard from '@/components/CategoryCard/CategoryCard';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import FeaturedProducts from '@/components/FeaturedProducts/FeaturedProducts';
 import Testimonial from '@/components/Testimonial/Testimonial';
-import { useAuth } from '@/contexts/AuthContext';
 
 const categories = [
   {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar/Navbar';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
@@ -7,13 +6,12 @@ import { FcGoogle } from 'react-icons/fc';
 import Layout from '@/components/Layout/Layout';
 import Lottie from 'lottie-react';
 import animationData from '@/public/assets/login5.json';
-import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import useUser from '@/hooks/useUser';
 import axios from '@/api/axios';
 
 const Login = () => {
-  const { logIn, user, googleLogin } = useAuth();
+  const { logIn, googleLogin } = useAuth()!;
   const [loginError, setRegisterError] = useState('');
 
   const {

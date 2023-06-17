@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { AiOutlineHome, AiOutlineMenu } from 'react-icons/ai';
 import Link from 'next/link';
 import { BsArchive, BsTruck } from 'react-icons/bs';
@@ -6,6 +6,7 @@ import { FiUsers, FiLogOut } from 'react-icons/fi';
 import Logo from '@/components/Logo/Logo';
 import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/contexts/AuthContext';
 
 const links = [
   {
@@ -28,16 +29,12 @@ const links = [
     Icon: <FiUsers />,
     link: '/dashboard/users',
   },
-  {
-    title: 'Logout',
-    Icon: <FiLogOut />,
-    link: '/dashboard/logout',
-  },
 ];
 
 function DashboardLayout({ children }: { children: ReactNode }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { push } = useRouter();
+  const { logOut } = useAuth();
 
   const {
     userData: { isAdmin },
@@ -47,9 +44,20 @@ function DashboardLayout({ children }: { children: ReactNode }) {
     setIsNavOpen((prevIsNavOpen) => !prevIsNavOpen);
   };
 
-  if (!isAdmin) {
-    push('/');
-  }
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (!isAdmin) {
+  //     push('/');
+  //   }
+  // }, [isAdmin, push]);
 
   return (
     <main className="container flex flex-col gap-5 items-start py-2 lg:flex-row">
@@ -78,10 +86,18 @@ function DashboardLayout({ children }: { children: ReactNode }) {
                 </Link>
               </li>
             ))}
+            <li>
+              <button
+                className="flex gap-2 items-center p-2 text-lg"
+                onClick={handleLogOut}>
+                <FiLogOut />
+                <span>Logout</span>
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
-      <section className="w-full">{children}</section>
+      <section className="py-2 w-full">{children}</section>
     </main>
   );
 }

@@ -1,11 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/api/axios';
 import DashboardLayout from '@/components/DashboardLayout/DashboardLayout';
+import { Ring } from '@uiball/loaders';
 
 function Users() {
   const queryClient = useQueryClient();
 
-  const { data: dashboardUsers = [] } = useQuery(
+  const { data: dashboardUsers = [], isLoading } = useQuery(
     ['dashboardUsers'],
     async () => {
       try {
@@ -47,8 +48,10 @@ function Users() {
 
   return (
     <DashboardLayout>
-      <section className="p-10">
-        <h2 className="pb-2 text-2xl font-bold">Users</h2>
+      <h2 className="pt-3 text-2xl font-bold text-gray-500">Users</h2>
+      {isLoading ? (
+        <Ring size={50} lineWeight={5} speed={2} color="black" />
+      ) : dashboardUsers.length ? (
         <div className="flex flex-col p-2 my-6 bg-white rounded-md shadow">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
@@ -118,7 +121,9 @@ function Users() {
             </div>
           </div>
         </div>
-      </section>
+      ) : (
+        <p>Failed To Load Users</p>
+      )}
     </DashboardLayout>
   );
 }

@@ -1,18 +1,18 @@
 import Layout from '@/components/Layout/Layout';
 import { useCart } from '@/contexts/CartContext';
-import ProductCard from '@/components/ProductCard/ProductCard';
-import { CartProduct, Product } from '@/types/product';
-import Image from 'next/image';
+import { CartProduct } from '@/types/product';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CartItem from '@/components/CartItem/CartItem';
 import Link from 'next/link';
 import axios from '@/api/axios';
 import useUser from '@/hooks/useUser';
+import { Ring } from '@uiball/loaders';
 
 const Cart = () => {
-  const { cartProducts, addToCart, removeFromCart } = useCart();
   const [subTotal, setSubTotal] = useState(0);
+  const { cartProducts, removeFromCart, isLoading } = useCart()!;
+
   const {
     userData: { _id },
     userIsLoading,
@@ -59,7 +59,9 @@ const Cart = () => {
   return (
     <Layout>
       <h2 className="pb-5 text-2xl font-bold">Shopping Cart</h2>
-      {cartProducts.length > 0 ? (
+      {isLoading ? (
+        <Ring size={50} lineWeight={5} speed={2} color="black" />
+      ) : cartProducts.length ? (
         <div className="grid grid-cols-1 gap-5 items-start md:grid-cols-2">
           <ul className="grid order-1 gap-5 md:-order-1 md:gap-7">
             {cartProducts?.map(({ product, quantity, _id }: CartProduct) => (

@@ -18,7 +18,7 @@ import {
 
 interface AuthContextProps {
   registerUser: (email: string, password: string) => void;
-  googleLogin: () => void;
+  googleLogin: () => {};
   user: {};
 }
 

@@ -6,19 +6,19 @@ import axios from '@/api/axios';
 import { useRouter } from 'next/router';
 import { AiOutlineUser } from 'react-icons/ai';
 import { format } from 'date-fns';
-import { create } from 'domain';
 import { toast } from 'react-hot-toast';
 
 function Profile() {
   const {
     userData: { _id, userName, email },
   } = useUser();
-  const { user, logOut } = useAuth();
+
+  const { logOut } = useAuth();
   const router = useRouter();
 
   const queryClient = useQueryClient();
 
-  const { data: profileOrders = [] } = useQuery(
+  const { data: profileOrders = [], isLoading } = useQuery(
     ['profileOrders'],
     async () => {
       try {
@@ -74,8 +74,9 @@ function Profile() {
           Log Out
         </button>
       </div>
-
-      {profileOrders.length > 0 ? (
+      {isLoading ? (
+        <p>Orders Are Loading</p>
+      ) : profileOrders.length ? (
         <div className="flex flex-col p-2 my-6 bg-white rounded-md shadow">
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
