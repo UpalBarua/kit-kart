@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout/Layout';
 import ProductCard from '@/components/ProductCard/ProductCard';
 import { Product } from '@/types/product';
+import { Category } from '@/types/Category';
 import axios from '@/api/axios';
 import React from 'react';
 import CategoryCard from '@/components/CategoryCard/CategoryCard';
@@ -8,49 +9,51 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import FeaturedProducts from '@/components/FeaturedProducts/FeaturedProducts';
 import Testimonial from '@/components/Testimonial/Testimonial';
 
-const categories = [
-  {
-    title: 'Fresh%20Produce',
-    icon: '/assets/categories/fresh-produce.svg',
-    bgColor: 'yellow',
-  },
-  { title: 'Dairy', icon: '/assets/categories/dairy.svg', bgColor: 'purple' },
-  { title: 'Bakery', icon: '/assets/categories/bakery.svg', bgColor: 'lime' },
-  { title: 'Canned', icon: '/assets/categories/canned.svg', bgColor: 'red' },
-  {
-    title: 'Snacks',
-    icon: '/assets/categories/snacks.svg',
-    bgColor: 'orange',
-  },
-  {
-    title: 'Beverages',
-    icon: '/assets/categories/beverages.svg',
-    bgColor: 'teal',
-  },
-  {
-    title: 'Pantry%20Staples',
-    icon: '/assets/categories/pantry.svg',
-    bgColor: 'indigo',
-  },
-  // {
-  //   title: 'Frozen%20Foods',
-  //   icon: '/assets/categories/frozen.svg',
-  //   bgColor: 'pink',
-  // },
-  {
-    title: 'Household',
-    icon: '/assets/categories/household.svg',
-    bgColor: 'fuchsia',
-  },
-];
+// const categories = [
+//   {
+//     title: 'Fresh%20Produce',
+//     icon: '/assets/categories/fresh-produce.svg',
+//     bgColor: 'yellow',
+//   },
+//   { title: 'Dairy', icon: '/assets/categories/dairy.svg', bgColor: 'purple' },
+//   { title: 'Bakery', icon: '/assets/categories/bakery.svg', bgColor: 'lime' },
+//   { title: 'Canned', icon: '/assets/categories/canned.svg', bgColor: 'red' },
+//   {
+//     title: 'Snacks',
+//     icon: '/assets/categories/snacks.svg',
+//     bgColor: 'orange',
+//   },
+//   {
+//     title: 'Beverages',
+//     icon: '/assets/categories/beverages.svg',
+//     bgColor: 'teal',
+//   },
+//   {
+//     title: 'Pantry%20Staples',
+//     icon: '/assets/categories/pantry.svg',
+//     bgColor: 'indigo',
+//   },
+//   {
+//     title: 'Frozen%20Foods',
+//     icon: '/assets/categories/frozen.svg',
+//     bgColor: 'pink',
+//   },
+//   {
+//     title: 'Household',
+//     icon: '/assets/categories/household.svg',
+//     bgColor: 'fuchsia',
+//   },
+// ];
 
 export const getStaticProps = async () => {
   try {
-    const { data } = await axios.get('/products');
+    const { data: products } = await axios.get('/products');
+    const { data: categories } = await axios.get('/categories');
 
     return {
       props: {
-        products: data,
+        products,
+        categories,
       },
     };
   } catch (error: any) {
@@ -59,12 +62,19 @@ export const getStaticProps = async () => {
     return {
       props: {
         products: [],
+        categories: [],
       },
     };
   }
 };
 
-const Home = ({ products }: { products: Product[] }) => {
+const Home = ({
+  products,
+  categories,
+}: {
+  products: Product[];
+  categories: Category[];
+}) => {
   return (
     <Layout>
       <section className="flex flex-col gap-2 pb-16 text-center">

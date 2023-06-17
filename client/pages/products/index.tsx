@@ -68,8 +68,8 @@ function Products() {
         <h2 className="pb-3 text-xl font-bold text-gray-600">
           Filter Products
         </h2>
-        <div className="flex gap-2 items-stretch">
-          <div className="flex flex-1 gap-2 items-center px-3 py-1 mb-8 bg-white rounded-lg border-2 border-gray-200">
+        <div className="flex gap-2 items-center">
+          <div className="flex flex-1 gap-2 items-center px-3 py-1 bg-white rounded-lg border-2 border-gray-200 lg:mb-8">
             <BsSearch className="text-xl text-gray-500" />
             <input
               className="w-48 border-0 focus:ring-0"
@@ -104,7 +104,7 @@ function Products() {
       </div>
       <div>
         <div className="flex justify-between items-center px-2 py-3">
-          <p className="text-2xl font-bold text-gray-600 pe-96">
+          <p className="text-lg font-bold text-gray-600 lg:text-2xl lg:pe-96">
             Showing{' '}
             <span className="text-green-500">{products.length || '0'}</span>{' '}
             Products

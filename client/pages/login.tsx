@@ -8,7 +8,6 @@ import Lottie from 'lottie-react';
 import animationData from '@/public/assets/login5.json';
 import { useRouter } from 'next/router';
 import useUser from '@/hooks/useUser';
-import axios from '@/api/axios';
 
 const Login = () => {
   const { logIn, googleLogin } = useAuth()!;
@@ -47,18 +46,8 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const { user } = await googleLogin();
-
-      if (Object.keys(user).length > 0) {
-        const { data } = await axios.post('/user', {
-          userName: user.displayName,
-          email: user.email,
-        });
-
-        if (data?.createdAt) {
-          push('/');
-        }
-      }
+      await googleLogin();
+      push('/');
     } catch (error: any) {
       setRegisterError(error.message);
     }

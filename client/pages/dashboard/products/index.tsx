@@ -16,7 +16,7 @@ function Products() {
       return data;
     },
     {
-      onSuccess: (error: any) => {
+      onError: (error: any) => {
         toast.error(error.message);
       },
     }

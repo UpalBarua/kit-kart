@@ -49,6 +49,8 @@ function Orders() {
     }
   );
 
+  console.log(dashboardOrders);
+
   return (
     <DashboardLayout>
       <h2 className="pt-3 text-2xl font-bold text-gray-500">Orders</h2>
@@ -135,7 +137,7 @@ function Orders() {
           </div>
         </div>
       ) : (
-        <p>Failed To Load Products</p>
+        <p>Failed To Load Orders</p>
       )}
     </DashboardLayout>
   );

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Link from 'next/link';
 import Logo from '../Logo/Logo';
 import useUser from '@/hooks/useUser';
@@ -5,14 +6,19 @@ import {
   AiOutlineShoppingCart,
   AiOutlineMenu,
   AiOutlineHome,
-  AiOutlineFire,
-  AiOutlineNotification,
   AiOutlineHeart,
   AiOutlineUser,
   AiOutlineSearch,
 } from 'react-icons/ai';
+import MobileMenu from '../MobileMenu';
 
 function Navbar() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const handleNavToggle = () => {
+    setIsNavOpen((prev) => !prev);
+  };
+
   const {
     userData: { _id, email, userName },
   } = useUser();
@@ -75,8 +81,11 @@ function Navbar() {
               </Link>
             </li>
           )}
+          {isNavOpen && <MobileMenu _id={_id} />}
           <li>
-            <button className="grid place-content-center p-2 text-gray-600 rounded sm:hidden hover:text-gray-800 hover:bg-green-100">
+            <button
+              className="grid place-content-center p-2 text-gray-600 rounded sm:hidden hover:text-gray-800 hover:bg-green-100"
+              onClick={handleNavToggle}>
               <AiOutlineMenu className="text-3xl" />
             </button>
           </li>

@@ -9,6 +9,7 @@ import wishlistRoute from './routes/wishlist';
 import reviewsRoute from './routes/reviews';
 import paymentRoute from './routes/payment';
 import ordersRoute from './routes/orders';
+import categoriesRoute from './routes/categories';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/wishlist', wishlistRoute);
 app.use('/reviews', reviewsRoute);
 app.use('/payment', paymentRoute);
 app.use('/orders', ordersRoute);
+app.use('/categories', categoriesRoute);
 
 app.use((req: Request, res: Response) =>
   res.status(404).json({ message: 'Not Found' })

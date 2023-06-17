@@ -1,9 +1,16 @@
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import DashboardLayout from '@/components/DashboardLayout/DashboardLayout';
 import axios from '@/api/axios';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import uploadImage from '@/utils/uploadImage';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 function New() {
+  const [userImg, setUserImg] = useState('');
+  const [imgPreview, setImgPreview] = useState('');
+
   const { register, handleSubmit } = useForm();
   const { back } = useRouter();
 
@@ -14,9 +21,11 @@ function New() {
     category,
     description,
   }) => {
+    const imageUrl = await uploadImage(userImg);
+
     const newProduct = {
       title,
-      imageUrl: 'i.ibb.co',
+      imageUrl,
       ratingAvg: '2k',
       reviewsCount: '4k',
       salesCount: '2.6k',
@@ -40,10 +49,30 @@ function New() {
     }
   };
 
+  useEffect(() => {
+    if (!userImg) {
+      return setImgPreview('');
+    }
+
+    const objectURL = URL.createObjectURL(userImg);
+    setImgPreview(objectURL);
+
+    return () => URL.revokeObjectURL(objectURL);
+  }, [userImg]);
+
   return (
     <DashboardLayout>
       <h2 className="pb-5 text-2xl font-bold text-gray-600">Add New Product</h2>
-      {/* TODO : add image upload */}
+      <div className="p-5 mb-5 bg-white rounded-md shadow">
+        {imgPreview && (
+          <Image height={200} width={200} src={imgPreview} alt="Upload Image" />
+        )}
+        <input
+          className="pt-2"
+          type="file"
+          onChange={(event) => setUserImg(event.target.files[0])}
+        />
+      </div>
       <form
         className={'grid gap-4 lg:gap-6 lg:pe-96'}
         onSubmit={handleSubmit(handleAddProduct)}>

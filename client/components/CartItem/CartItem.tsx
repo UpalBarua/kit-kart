@@ -7,6 +7,7 @@ import { Product } from '@/types/product';
 import { useState, useEffect } from 'react';
 import axios from '@/api/axios';
 import useUser from '@/hooks/useUser';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface CartItemProps extends Product {
   cartId: string;
@@ -25,6 +26,8 @@ function CartItem({
   cartId,
   removeFromCart,
 }: CartItemProps) {
+  const queryClient = useQueryClient();
+
   const [productQuantity, setProductQuantity] = useState(quantity);
   const {
     userData: { email },
@@ -36,13 +39,14 @@ function CartItem({
         await axios.patch(
           `/cart?email=${email}&id=${cartId}&quantity=${productQuantity}`
         );
+        queryClient.invalidateQueries(['cartProducts']);
       } catch (error: any) {
         console.log(error.message);
       }
     };
 
     updateQuantity();
-  }, [productQuantity, cartId, email]);
+  }, [productQuantity, cartId, email, queryClient]);
 
   return (
     <li className="flex gap-5 items-center">

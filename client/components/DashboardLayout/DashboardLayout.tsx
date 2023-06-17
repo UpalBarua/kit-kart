@@ -38,6 +38,7 @@ function DashboardLayout({ children }: { children: ReactNode }) {
 
   const {
     userData: { isAdmin },
+    userIsLoading,
   } = useUser();
 
   const handleNavToggle = () => {
@@ -53,11 +54,11 @@ function DashboardLayout({ children }: { children: ReactNode }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (!isAdmin) {
-  //     push('/');
-  //   }
-  // }, [isAdmin, push]);
+  useEffect(() => {
+    if (!userIsLoading && !isAdmin) {
+      push('/');
+    }
+  }, [isAdmin, push, userIsLoading]);
 
   return (
     <main className="container flex flex-col gap-5 items-start py-2 lg:flex-row">
