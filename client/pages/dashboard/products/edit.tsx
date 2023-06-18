@@ -4,9 +4,30 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/api/axios';
+import { Category } from '@/types/Category';
 
-function Edit() {
-  const { register, handleSubmit } = useForm();
+export const getStaticProps = async () => {
+  try {
+    const { data } = await axios.get('/categories');
+
+    return {
+      props: {
+        categories: data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      props: {
+        categories: [],
+      },
+    };
+  }
+};
+
+function Edit({ categories }: { categories: Category[] }) {
+  console.log(categories);
 
   const { back, query } = useRouter();
   const { productId } = query;
@@ -25,17 +46,32 @@ function Edit() {
 
   const { _id, title, price, stock, category, description } = productDetails;
 
-  const handleEditProduct = async ({ title, description }) => {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      title,
+      price,
+      stock,
+      category,
+      description: description?.main,
+    },
+  });
+
+  const handleEditProduct = async ({
+    title,
+    price,
+    stock,
+    category,
+    description,
+  }) => {
     const updatedProduct = {
       title,
-      imageUrl: 'i.ibb.co',
-      ratingAvg: '2k',
+      ratingAvg: '4.8',
       reviewsCount: '4k',
       salesCount: '2.6k',
-      price: 300,
-      stock: 400,
+      price,
+      stock,
       seller: 'kit kart',
-      category: 'Fresh',
+      category,
       description: {
         main: description,
         list: [],
@@ -60,82 +96,46 @@ function Edit() {
           <label>Product Title</label>
           <input
             className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
-            {...register('title', {
-              required: {
-                value: true,
-                message: 'Title is required',
-              },
-            })}
-            defaultValue={title}
+            // value={title}
             type="text"
+            {...register('title')}
           />
         </fieldset>
         <fieldset className="grid gap-2">
           <label>Price (BDT)</label>
           <input
             className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
-            {...register('price', {
-              required: {
-                value: true,
-                message: 'Price is required',
-              },
-            })}
-            defaultValue={price}
+            // value={price}
             type="number"
+            {...register('price')}
           />
         </fieldset>
         <fieldset className="grid gap-2">
           <label>Stock Quantity</label>
           <input
             className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
-            {...register('stock', {
-              required: {
-                value: true,
-                message: 'Stock is required',
-              },
-            })}
-            defaultValue={stock}
+            // value={stock}
             type="number"
+            {...register('stock')}
           />
         </fieldset>
         <fieldset className="grid gap-2">
           <label>Category</label>
           <input
             className="rounded-md border-gray-400 shadow-sm focus:ring-0 focus:border-green-500"
-            {...register('category', {
-              required: {
-                value: true,
-                message: 'Category is required',
-              },
-            })}
-            defaultValue={category}
+            // value={category}
             type="text"
+            {...register('category')}
           />
         </fieldset>
         <fieldset className="grid gap-2">
           <label>Description</label>
           <textarea
-            {...register('description', {
-              required: {
-                value: true,
-                message: 'Description is required',
-              },
-            })}
-            defaultValue={description?.main}
+            // value={description?.main}
             className="rounded-md border-gray-400 shadow-sm focus:ring-0 resize-border focus:r5ng-green-400"
+            {...register('description')}
           />
         </fieldset>
-        {/* <fieldset className="grid gap-2">
-          <label>Discount</label>
-          <input className='shadow-sm rounded-m border-gray-400d' type="number" />
-          <p classNamehidden ='text-sm text-red6500'>bla bla bla</p>
-          {...register("title", {
-            required: {
-              value: true,
-              message: "Title is required"
-            }
-          })}
-        </fieldset> */}
         <button
           className="py-3 text-lg font-semibold text-white bg-green-500 rounded-md"
           type="submit">

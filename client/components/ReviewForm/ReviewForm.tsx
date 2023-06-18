@@ -18,7 +18,10 @@ function ReviewForm({
 }: ReviewFormProps) {
   const [reviewComment, setReviewComment] = useState('');
   const [rating, setRating] = useState(0);
-  const { _id } = useUser();
+
+  const {
+    userData: { _id },
+  } = useUser();
 
   const queryClient = useQueryClient();
 

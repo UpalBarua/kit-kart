@@ -52,7 +52,7 @@ const ProductCard = ({ _id, title, imageUrl, price, description }: Product) => {
         </div>
         <div>
           <h3 className="text-lg font-bold">{title}</h3>
-          <p className="text-gray-600">{description?.main.slice(0, 50)}</p>
+          <p className="text-gray-600">{description?.main?.slice(0, 50)}</p>
           <footer className="flex justify-between items-center pt-3 lg:pt-5">
             <p className="flex items-center text-2xl font-bold text-green-500 lg:text-3xl">
               <TbCurrencyTaka />

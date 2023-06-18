@@ -50,7 +50,7 @@ const ReviewCard = ({ _id, user, comment, rating, createdAt }: Review) => {
       <footer className="flex justify-between items-center text-gray-500">
         {email === user.email && (
           <button
-            className="flex gap-1 items-center text-lg"
+            className="flex gap-1 items-center p-1 text-lg text-red-500 bg-red-100 rounded-md"
             onClick={() => handleReviewDelete()}>
             <AiOutlineDelete />
           </button>

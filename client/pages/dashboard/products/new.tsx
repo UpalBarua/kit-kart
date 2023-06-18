@@ -29,10 +29,10 @@ function New() {
       ratingAvg: '2k',
       reviewsCount: '4k',
       salesCount: '2.6k',
-      price: 300,
-      stock: 400,
+      price,
+      stock,
       seller: 'kit kart',
-      category: 'Fresh',
+      category,
       description: {
         main: description,
         list: [],
@@ -63,19 +63,24 @@ function New() {
   return (
     <DashboardLayout>
       <h2 className="pb-5 text-2xl font-bold text-gray-600">Add New Product</h2>
-      <div className="p-5 mb-5 bg-white rounded-md shadow">
-        {imgPreview && (
-          <Image height={200} width={200} src={imgPreview} alt="Upload Image" />
-        )}
-        <input
-          className="pt-2"
-          type="file"
-          onChange={(event) => setUserImg(event.target.files[0])}
-        />
-      </div>
       <form
         className={'grid gap-4 lg:gap-6 lg:pe-96'}
         onSubmit={handleSubmit(handleAddProduct)}>
+        <div className="p-5 bg-white rounded-md shadow">
+          {imgPreview && (
+            <Image
+              height={200}
+              width={200}
+              src={imgPreview}
+              alt="Upload Image"
+            />
+          )}
+          <input
+            className="pt-2"
+            type="file"
+            onChange={(event) => setUserImg(event.target.files[0])}
+          />
+        </div>
         <fieldset className="grid gap-2">
           <label>Product Title</label>
           <input

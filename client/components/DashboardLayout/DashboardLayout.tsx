@@ -9,11 +9,11 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/contexts/AuthContext';
 
 const links = [
-  {
-    title: 'Dashboard',
-    Icon: <AiOutlineHome />,
-    link: '/dashboard',
-  },
+  // {
+  //   title: 'Dashboard',
+  //   Icon: <AiOutlineHome />,
+  //   link: '/dashboard',
+  // },
   {
     title: 'Products',
     Icon: <BsArchive />,

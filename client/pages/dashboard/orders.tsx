@@ -89,6 +89,11 @@ function Orders() {
                         className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
                         Delete
                       </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-medium text-left text-gray-500 uppercase">
+                        Ship
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -113,13 +118,16 @@ function Orders() {
                               format(new Date(createdAt), 'MMMM d, yyyy')}
                           </td>
                           <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
-                            <button onClick={() => deleteOrder(_id)}>
-                              delete
+                            <button
+                              className="flex gap-1 items-center px-4 py-2 text-sm text-red-500 bg-red-100 rounded-md shadow-sm"
+                              onClick={() => deleteOrder(_id)}>
+                              Delete
                             </button>
                           </td>
                           {!isShipped && (
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">
                               <button
+                                className="flex gap-1 items-center px-4 py-2 text-sm text-green-500 bg-green-100 rounded-md shadow-sm"
                                 onClick={() =>
                                   markAsShipped({ id: _id, isShipped: true })
                                 }>
